@@ -1,10 +1,10 @@
-Visualization
-=============
+# Visualization
+
 
 Screen visualizations displaying the leaderboards and bar presence.
 
-Summary:
--------------
+### Summary:
+
 
 We had planned for 2 screens. 
 
