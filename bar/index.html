@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+
+	body {
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		background-color: #262626;
+	}
+	
+	body text {
+		fill: #D1EEFF;		
+	}
+	
+	.name {
+		font-size: 22px;
+		font-weight: 200;
+		text-anchor: middle;
+	}	
+	
+	.photo-frame{
+		fill: #D1EEFF;
+		stroke: none;
+	}
+
+	.callout-txt  p {
+		font-size: 40px;
+		font-weight: 200;
+		color: #262626;
+		word-wrap: break-word;
+		text-align:center;
+		padding: 30px;
+	}
+	
+</style>
+
+
+<div id='bar'></div>
+
+<script src="http://d3js.org/d3.v3.js"></script>
+
+<script>
+
+		// CONFIGS
+		var svg, // the svg canvas
+			barViz, // the svg group containing the bar visualization
+			barCount = 10,
+			refreshTime = 7000, // milliseconds between data refresh requests 
+			vizWidth = 1900, //1920, // total screen width
+			vizHeight = 1060, //1080, // total screen height
+			margin = {top: 30, right: 30, bottom: 30, left: 30},
+			padding = 13, // padding between people
+			animDuration = 2000, // the time it takes to animate a change
+			width =  vizWidth - margin.left - margin.right, // width of visualization
+			height = vizHeight - margin.top - margin.bottom, // height of visualization
+			radius = 100,
+			radiusBig = 200,
+			textPadding = 22,
+			picFrameWidth = 2,
+			lastLoadedPeople = [],
+			peopleOnScreen = [],
+			force;
+			
+		
+		// CALLOUTS for Newcomers
+		// does NOT use score
+		var newcomerSnippets = [
+			{
+				greeting: 'Hi',
+				start: 'Get a drink',
+				end: 'to boost your bar score!'
+			}, {
+				greeting: 'Yo',
+				start: 'Find a beacon to play the game!',
+				end: ''
+			}, {
+				greeting: 'Hiya',
+				start: 'Welcome to the Objectlab party!',
+				end: ''
+			}, {
+				greeting: 'Hello',
+				start: 'You are here,',
+				end: 'now play the game!'
+			}, {
+				greeting: '',
+				start: 'Welcome.',
+				end: 'Drink to up your bar score!'
+			},
+			{
+				greeting: 'Hurry',
+				start: 'The users are waiting.',
+				end: 'Play the game!'
+			},{
+				greeting: 'Hey',
+				start: 'Do you fight for the users?',
+				end: ''
+			}
+		],
+		
+		// CALLOUTS for no Image 
+		// does NOT use score
+		noPhotoSnippets = [
+			{
+				greeting: 'Hello',
+				start: 'Please take your picture',
+				end: 'with the app!'
+			},{
+				greeting: 'Yo',
+				start: 'Take your bloody picture,',
+				end: 'friend!'
+			},{
+				greeting: '',
+				start: 'Missing picture alert...',
+				end: 'take your picture now!'
+			},{
+				greeting: 'Hello',
+				start: 'What are you trying to hide?',
+				end: ''
+			}
+		],
+		
+		// CALLOUTS for barscore
+		lowBarscoreSnippets = [
+			{
+				greeting: 'Hi',
+				start: 'Your bar score is',
+				end: '...fight for the users!'
+			}, {
+				greeting: 'Hey',
+				start: 'Your bar score of',
+				end: 'is not useful!'
+			}, {
+				greeting: 'Salut',
+				start: 'Your ',
+				end: ' bar score is modest!'
+			}, {
+				greeting: 'Hi',
+				start: 'Pure Power will up your bar score of',
+				end: '!'
+			}
+		],
+		medBarscoreSnippets = [
+			{
+				greeting: 'Cheers',
+				start: 'Your bar score of',
+				end: 'is awesome!'
+			}, {
+				greeting: 'Hey',
+				start: 'A',
+				end: ' bar score rocks. Free drinks for you!'
+			}, {
+				greeting: 'Salut',
+				start: 'Your bar score of',
+				end: 'is nice. Can you do better?'
+			}
+		],
+		highBarscoreSnippets = [
+			{
+				greeting: 'Hi',
+				start: 'Your bar score of',
+				end: 'is wonderful!'
+			}, {
+				greeting: 'Howdy',
+				start: 'A rocking bar score of',
+				end: 'is impressive!'
+			}, {
+				greeting: 'Ola',
+				start: 'Impressive bar score of',
+				end: '...keep it up'
+			}
+		],
+		
+		// CALLOUTS for Beacons
+		// does NOT use score
+		noBeaconSnippets = [
+			{
+				greeting: 'Hi',
+				start: 'You have no beacons.',
+				end: 'Go find some!'
+			}, {
+				greeting: 'Hey',
+				start: 'Play the game.',
+				end: 'Find a beacon!'
+			}, {
+				greeting: 'Hey',
+				start: 'Play the game.',
+				end: 'Look for beacons!'
+			}
+		],
+		// does NOT use score
+		oneBeaconSnippets = [
+			{
+				greeting: 'Howdy',
+				start: 'Congrats on your first beacon!',
+				end: ''
+			}, {
+				greeting: 'Ola',
+				start: 'Well done finding',
+				end: 'your first beacon!'
+			}, {
+				greeting: 'Salut',
+				start: 'You have found a beacon',
+				end: 'Game on!'
+			}, {
+				greeting: 'Hi',
+				start: 'Beacon found!',
+				end: 'Go find more!'
+			}
+		],
+		// use 'beacons'
+		lowBeaconSnippets = [
+			{
+				greeting: 'Hi',
+				start: 'You have',
+				end: 'beacons. Get more to win!'
+			}, {
+				greeting: 'Hey',
+				start: 'Congrats on finding',
+				end: 'beacons!'
+			}, {
+				greeting: 'Salut',
+				start: 'You are persistent...',
+				end: 'beacons are yours!'
+			}
+		],
+		medBeaconSnippets = [
+			{
+				greeting: 'Howdy',
+				start: 'You have collected',
+				end: 'beacons!'
+			}, {
+				greeting: 'Hi',
+				start: 'Congrats on claiming',
+				end: ' beacons!'
+			}, {
+				greeting: 'Hey',
+				start: 'Brilliant job.',
+				end: 'beacons!'
+			}
+		],
+		allBeaconSnippets = [
+			{
+				greeting: 'Hiya',
+				start: 'Congrats on claiming all',
+				end: 'beacons!'
+			}, {
+				greeting: 'Hello',
+				start: 'You claimed an impressive',
+				end: 'beacons!'
+			}, {
+				greeting: 'Hi',
+				start: 'You claimed all',
+				end: 'beacons. Well Done!'
+			}
+		];
+
+		/**
+		 * Return user image or dummy
+		 */
+		function imgUrl(d){
+
+			return d.IMG_REF ? '/'+d.IMG_REF : '/img/dummy_400x533.png';
+			
+		}
+		
+	
+		// configure the force layout
+		force = d3.layout.force()
+			    .nodes(peopleOnScreen)
+			    .size([width, height])
+			    .gravity(0.005)
+			    .charge(-radius*3.5)
+			    .on("tick", onForceTick)
+			    .start();
+
+		/**
+		 * called on every tick of the 'force' layout while it is running
+		 */
+		function onForceTick(e){
+			
+			barViz.selectAll(".person")
+				//.each(collide(.5))
+		      	.each(contain())
+		      	.attr("transform", function(d) { return "translate(" + d.x + "," + d.y +")"; } );
+		      	
+		}
+
+		
+		// Create the SVG container and set the origin.
+		svg = d3.select("#bar").append("svg")
+			.attr("width", vizWidth)
+			.attr("height", vizHeight);
+		
+
+					
+		// add the barscore visualization	
+		barViz = svg.append("g")
+				.attr("class", "barViz")
+				.attr("transform", "translate(" + margin.left + "," + margin.top +")");
+		
+
+		// Start the initial data load
+		getData();
+		
+		
+		/**
+		 * Request data from the server
+		 */
+		function getData() {
+			
+			
+			setTimeout(function(){
+						
+					d3.json("http://ec2-54-200-209-241.us-west-2.compute.amazonaws.com/atbeacon/" + barCount , function(error, data) {
+					
+							var people = data.atBeacon,
+								delta = getDelta(people);
+					
+							//update the current people array
+							lastLoadedPeople = people;
+							
+							updateViz(delta);
+		
+				});
+				
+			}, refreshTime);
+
+			
+
+		}
+		
+
+		/**
+		 * update visualization
+		 */
+		function updateViz (delta){
+				
+				// DEBUG
+				console.log(peopleOnScreen.length + ' On Screen ... ' + delta.deleted.length +' Deleted | ' + delta.added.length +   ' Added | ' + delta.changed.length + ' Changed');
+				
+				// if any people have left the bar start with removing them
+				if(delta.deleted.length > 0) {
+					removeDepartures(delta);
+				} 
+				// otherwise if new people have arrived start with adding them
+				else if(delta.added.length > 0) {
+					addArrivals(delta);
+				}				
+				// otherwise if there are only changes update people currently at the bar
+				else if(delta.changed.length > 0) {
+					updateBingers(delta);
+				}
+				// otherwise load a new data set
+				else {
+					
+					// increase the local data idx
+					dataIdx++;			
+					if(dataIdx === 6){
+						dataIdx = 0;
+					}
+											
+					getData();
+					
+				}
+						
+		}
+
+		
+		/**
+		 * remove people that have left the bar
+		 */
+		function removeDepartures(delta){
+			
+			var timeToComplete = 3000,
+				departures = delta.deleted;
+
+			// Remove data nodes for people that have currently left the bar
+			departures.forEach(
+				
+				function(p){
+					
+					// Update the data
+					peopleOnScreen.forEach(
+						
+						function(pos) {
+							
+							if(pos.USER_ID === p.USER_ID){
+								
+								// remove the person from the on screen data
+								peopleOnScreen.splice(peopleOnScreen.indexOf(pos),1);
+														
+							}
+						}
+						
+					);
+					
+				}
+				
+			);
+			
+			// empty deleted delta
+			delta.deleted = [];
+
+
+			force.start();
+			
+			// blend out and remove them all at once
+			barViz.selectAll(".person")
+		    	.data(peopleOnScreen, function(d) { return d.USER_ID; })
+			  		.exit().transition().duration(timeToComplete).ease("exp-out")
+				  		.style("opacity", 0)
+				  		.remove();
+			
+			// after people have been removed do the next thing		
+			setTimeout(function(){
+				
+				updateViz(delta);
+				
+			}, timeToComplete);
+	
+		}
+
+		/**
+		 * add new arrivals 
+		 */
+		function addArrivals(delta){
+			
+			var arrivals = delta.added,
+				// Increase/descrease this to change the duration for showing the callout for new arrivals
+				delay = 9000;
+			
+			
+			// add arrivals one at a time
+			var interval = setInterval(function() {
+					
+				var p = delta.added.shift();
+				
+				if(p){
+					showPerson(p,delay);
+				}
+				else{
+					
+					clearInterval(interval);
+					updateViz(delta); 
+					
+				}
+											
+			}, delay);
+					    
+		}
+		
+		/**
+		 * visualize a person at the bar
+		 */
+		function showPerson(p,delay) {
+			
+			var person,
+				// the duration during which to show the callout
+				timeShowingCallout = delay - 1000,
+				// the duration of the transition animation
+				animDuration = 1000,
+				calloutH = 272,
+				calloutW = 460,
+				calloutTxt;
+
+			
+			// set the start position
+			p.x = vizWidth/Math.floor((Math.random()*2.5)+1.5);
+			p.y = vizHeight/2;
+			
+			peopleOnScreen.push(p);
+			
+			
+			// create a node for the person
+			person = barViz.selectAll(".person")
+			    .data(peopleOnScreen, function(d) { return d.USER_ID; })
+				  .enter().append("g")
+				  	.attr("class", "person")
+				  	.attr("userId", function(d){ return d.USER_ID; });
+		    
+		    // add a bubble
+		    person.append("circle")
+		    		.attr("class", "photo-frame")
+		    		.attr("r", radiusBig + picFrameWidth)
+		    		.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-in")
+						.attr("r", radius + picFrameWidth);
+					
+
+			
+			// add a clipping path for the photo
+			person.append("clipPath")
+					.attr("id", function(d) { return "clip-path-" + d.USER_ID; })
+					.append("circle")
+						.attr("cx", 0)
+						.attr("cy", 0)
+			    		.attr("r", radiusBig)
+			    		.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-in")
+							.attr("r", radius);
+			
+			// add the photo
+			person.append("image")
+				.attr("class", "photo")
+				.style("clip-path", function(d) { return "url(#clip-path-" + d.USER_ID +")"; })
+				.attr("xlink:href", function(d) { return imgUrl(d); })
+				.attr("x", -radiusBig)
+      			.attr("y", -radiusBig - radiusBig/2 )
+				.attr("width", radiusBig*2)
+  				.attr("height", radiusBig*1.5*2)
+				.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-in")
+					.attr("x", -radius)
+	      			.attr("y", -radius - radius/2 )
+					.attr("width", radius*2)
+	  				.attr("height", radius*1.5*2);
+	  				
+	  		
+	  		// add a callout
+			person.append("image")
+				.attr("class", "callout")
+				.attr("width", calloutW)
+  				.attr("height", calloutH)
+  				.attr("xlink:href", 'svg/callout.svg')
+  				.style("opacity", 0)
+				.attr("transform", "translate(" +  (radiusBig-80)  +"," + ( -radiusBig*2 ) + ")")
+				.transition().duration(animDuration).ease("exp-out")
+					.style("opacity", 1)
+				.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-out")
+					.style("opacity", 0)
+					.remove();
+			
+			// add the callout txt
+			calloutTxt = person.append("foreignObject")
+					.attr("class", "callout-txt")
+			        .attr('x', radiusBig-80)
+			        .attr('y', - radiusBig*2)
+			        .attr("width", calloutW)
+			        .attr("height", calloutH)
+			      .append("xhtml:p")
+			        .html(function(d) { return getCalloutTxt(d); } );
+			
+			calloutTxt.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-out")
+					.style("opacity", 0)
+					.remove();				
+			
+
+	  		// add the partner name
+			person.append("text")
+				.attr("class", "name")
+				.attr("y", radius + textPadding)
+				.style("opacity", 0)
+				.text(function(d) { return d.NAME; })
+				.transition().delay(timeShowingCallout+1000).duration(animDuration).ease("exp-out")
+					.style("opacity", 1);  					
+  				
+  			
+  			// start the autolayout
+  			force.start();
+  			
+  			return true;
+  			
+			
+		}
+		
+		
+		/**
+		 * returns an appropriate callout text for the user's current state of play
+		 */
+		function getCalloutTxt(d){
+			
+			var barscore = d.BAR_SCORE,
+				picture = d.IMG_REF,
+				claims = d.TOTAL_CLAIMS,
+				name = d.NAME,
+				type = function(){
+					// return a random type
+					var types = ['barscore','claims'];
+					return types[Math.floor(Math.random() * types.length)];
+				},
+				score,
+				snippet,
+				snippets;
+			
+			// newcomers
+			if(barscore === 1){				
+				snippets = newcomerSnippets;
+				score = '';
+			}
+			
+			// no Picture
+			else if(picture === null){				
+				snippets = noPhotoSnippets;
+				score = '';
+			}
+			
+			// BAR SCORE message
+			else if( type === 'barscore'){
+				
+				score = barscore;
+				
+				// adjust to reached barscore
+				if(barscore < 30) {
+					snippets = lowBarscoreSnippets;
+				}
+				else if (barscore < 30) {
+					snippets = medBarscoreSnippets;
+				}
+				else {
+					snippets = highBarscoreSnippets;
+				}
+	
+			}
+			// BEACON CLAIM message
+			else {
+
+				// adjust to claimed beacons
+				if(claims === 0) {
+					score = '';
+					snippets = noBeaconSnippets;
+				}
+				else if(claims === 1) {
+					score = '';
+					snippets = oneBeaconSnippets;
+				}
+				else if(claims <= 3) {
+					snippets = lowBeaconSnippets;
+					score = claims;
+				}
+				else if(claims <= 5) {
+					snippets = lowBeaconSnippets;
+					score = claims;
+				}
+				else {
+					snippets = allBeaconSnippets;
+					score = claims;
+				}
+				
+			}
+			
+			// choose a random snippet
+			snippet = snippets[Math.floor(Math.random() * snippets.length)];
+			
+			// DEBUG
+			console.log('bar score:' + barscore +' | claims: ' + claims );
+			
+			return snippet.greeting + ' ' + name + '<br>' + snippet.start + ' ' + score + ' ' + snippet.end;
+			
+		}
+
+
+		/**
+		 * Update people at the bar
+		 */
+		function updateBingers(delta){
+			
+			var person,
+				bingers = delta.changed,
+				timeToCompleteUpdate = 3000;
+			
+			// Update data nodes for people currently at the bar
+			bingers.forEach(
+				
+				function(p){
+					
+					// Update the data
+					peopleOnScreen.forEach(
+						
+						function(pos) {
+							
+							if(pos.USER_ID === p.USER_ID){
+								
+								pos.NAME = p.NAME;
+								pos.IMG_REF = p.IMG_REF;
+								pos.BAR_SCORE = p.BAR_SCORE;
+								pos.TOTAL_CLAIMS = p.TOTAL_CLAIMS;
+								
+							}
+						}
+						
+					);
+					
+				}
+				
+			);
+			
+			//empty the updates delta
+			delta.changed = [];
+			
+			// update the their visual
+			person = barViz.selectAll(".person")
+					.data(peopleOnScreen, function(d) { return d.USER_ID; });
+					
+			person.select(".name")
+					.text(function(d) { return d.NAME;});
+
+			person.select(".photo")
+					.attr("xlink:href", function(d) { return imgUrl(d); });
+					
+			// after people have been updated do the next thing		
+			setTimeout(function(){
+				
+				updateViz(delta);
+				
+			}, timeToCompleteUpdate);
+
+		}
+		
+
+
+		/**
+		 * LAYOUT Helpers
+		 */
+				
+		/**
+		 * contain person within the screen area
+		 */
+		function contain(){
+			
+			return function(d){	
+				
+				var limit = radius + textPadding;
+				
+				if( d.x > width - limit ) {
+					d.x = width - limit ;
+				}
+				else if( d.x < limit ){
+					d.x = limit;
+				}
+				
+				if( d.y > height - limit ) {
+					d.y = height - limit;
+				}
+				else if( d.y < limit ){
+					d.y = limit;
+				}			
+				
+			};
+		}
+		
+		/**
+		 * TODO this is work in progress and not yet functional
+		 * Resolves collisions between p and all other people.
+		 */
+		function collide(alpha) {
+		  
+		  var quadtree = d3.geom.quadtree(nodes);
+		  
+		  return function(p) {
+		    
+		    var r = radius + textPadding,
+		        nx1 = p.x - r,
+		        nx2 = p.x + r,
+		        ny1 = p.y - r,
+		        ny2 = p.y + r;
+	
+			quadtree.visit(function(quad, x1, y1, x2, y2) {
+		      
+		      if (quad.point && (quad.point !== p)) {
+		        
+		        var x = p.x - quad.point.x,
+		            y = p.y - quad.point.y,
+		            l = Math.sqrt(x * x + y * y),
+		            r = p.r + quad.point.radius + (p.color !== quad.point.color) * padding;
+		        
+		        if (l < r) {
+		          l = (l - r) / l * alpha;
+		          d.x -= x *= l;
+		          d.y -= y *= l;
+		          quad.point.x += x;
+		          quad.point.y += y;
+		        }
+		      
+		      }
+		      
+		      return x1 > nx2
+		          || x2 < nx1
+		          || y1 > ny2
+		          || y2 < ny1;
+		          
+		    });
+		    
+		  };
+		  
+		}
+		
+		
+		
+		
+		
+		/**
+		 * DATA Helpers
+		 */
+		
+		
+		/**
+		 * @param {Array} array of people
+		 * @return {Object} an object containing arrays of added, changed and deleted people
+		 */
+		function getDelta(newPeople)  {
+		    
+				var delta = {
+			        added: [],
+			        deleted: [],
+			        changed: []
+			   },
+			   mapO = mapFromArray(lastLoadedPeople, 'USER_ID'),
+			   mapN = mapFromArray(newPeople, 'USER_ID');
+			  
+
+			     
+		    for (var id in mapO) {
+		        
+		        if (!mapN.hasOwnProperty(id)) {
+		            delta.deleted.push(mapO[id]);
+		        } 
+		        else if (!isEqual(mapN[id], mapO[id])){
+		            delta.changed.push(mapN[id]);
+		        }	        
+		    }
+		
+		    for (var id in mapN) {
+		        
+		        if (!mapO.hasOwnProperty(id)) {
+		            delta.added.push( mapN[id] );
+		        }
+		        
+		    }
+		    
+		    return delta;
+		
+		}
+			
+		/**
+		 * Creates a map out of an array by choosing what property to key by
+		 * @param {object[]} array ... array that will be converted into a map
+		 * @param {string} prop ... name of property to key by
+		 * @return {object} ... the mapped array.
+		 */
+		function mapFromArray(array, prop) {
+		    var map = {},
+		    	i;
+		    	
+		    for (i=0; i < array.length; i++) {
+		        map[ array[i][prop] ] = array[i];
+		    }
+		    
+		    return map;
+		    
+		}
+		
+		/**
+		 * Compare two items
+		 * @ return {Boolean} ... true if they are equal
+		 */
+		function isEqual(a, b) {
+		    
+		    return 	a.USER_ID === b.USER_ID &&
+		    		a.IMG_REF === b.IMG_REF &&
+		    		a.NAME === b.NAME &&
+		    		a.BAR_SCORE === b.BAR_SCORE &&
+		    		a.TOTAL_CLAIMS === b.TOTAL_CLAIMS;
+		    		
+		}		
+		
+
+</script>
+
+

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+	body {
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		background-color: #262626;
+	}
+	
+	body text {
+		fill: #D1EEFF;		
+	}
+	
+	#leaderboard .name {
+		font-size: 26px;
+		font-weight: 100;
+		text-anchor: end;
+	}
+	
+	#leaderboard .label {
+		font-size: 54px;
+		font-weight: 100;
+		text-anchor: start;
+	}
+	
+	#leaderboard .divider {
+		stroke: #D1EEFF;
+		stroke-width: 1;
+	}
+
+	#leaderboard .outerCircle{
+		fill: #262626;
+		stroke: none;
+	}
+	
+	#leaderboard .picFrame{
+		fill: #D1EEFF;
+	}
+	
+	#leaderboard .photo {
+		clip-path: url(#clipping);
+	}
+	
+	
+	.barscore rect {
+		fill: url(#barGradient);
+	}
+
+	.barscore .score {
+		font-size: 26px;
+		font-weight: 100;
+		text-anchor: start;
+	}	
+
+</style>
+
+<div style="height: 0;">
+	<svg>
+	  <defs>
+
+	    	<clipPath id="clipping"></clipPath>
+	    	
+	    	<linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+	      		<stop offset="0%" style="stop-color:rgb(98,143,153);stop-opacity:1" />
+	      		<stop offset="75%" style="stop-color:rgb(199,252,252);stop-opacity:1" />
+	      		<stop offset="100%" style="stop-color:rgb(54,98,97);stop-opacity:1" />
+	    	</linearGradient>
+	    	
+	  </defs>
+	</svg>
+</div>
+
+<div id='leaderboard'> </div>
+
+<script src="http://d3js.org/d3.v3.js"></script>
+
+<script>
+
+		// SHARED vars
+		var svg,
+			leaderCount = 8, // number of leaders shown
+			refreshTime = 7000, // milliseconds between data refresh requests
+			vizWidth = 1900, // total screen width
+			vizHeight = 1060, // total screen height
+			margin = {top: 80, right: 90, bottom: 60, left: 330}, // the margins of each leaderboard
+			padding = 13, 
+			animDuration = 2000, // the time it takes to animate a change
+			width =  vizWidth/2 - margin.left - margin.right, 
+			height = vizHeight - margin.top - margin.bottom, // individual leaderboard height
+			radius = ( height - padding*leaderCount ) / ( leaderCount*2 ),
+			picFrameWidth = 2;
+		
+		// BEACON vars	
+		var beaconViz;
+			
+		// BARSCORE vars
+		var bsViz,
+			barHeight = 30,
+			minBarWidth = radius + padding + 10,
+			bsx = d3.scale.linear().range([0, width-minBarWidth]);
+		
+		
+		function imgUrl(d){
+			return d.IMG_REF ? '/'+d.IMG_REF : '/img/dummy_400x533.png';
+		}
+		
+		// append the clipping path with the correct dimensions
+		svg = d3.select("#clipping").append("circle")
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.attr("r", radius);
+		
+		// create the SVG container containing the visualizations
+		svg = d3.select("#leaderboard").append("svg")
+			.attr("width", vizWidth)
+			.attr("height", vizHeight);
+		
+		// add BARSCORE label
+		svg.append("text")
+			.attr("class", "label")
+			.attr("dy", ".75em")
+			.attr("transform", "rotate(-90 0 0)")
+			.attr("x", - vizHeight + 30)
+			.attr("y", 20)
+			.text("Barscore");
+			
+			
+		// add a dividing line
+		svg.append("line")
+			.attr("class", "divider")
+			.attr("x1",vizWidth/2)
+			.attr("y1",padding)
+			.attr("x2",vizWidth/2)
+			.attr("y2",vizHeight-padding);		
+
+
+		// add BEACON label
+		svg.append("text")
+			.attr("class", "label")
+			.attr("dy", ".75em")
+			.attr("transform", "rotate(-90 0 0)")
+			.attr("x", - vizHeight + 30)
+			.attr("y", vizWidth/2 + 20)
+			.text("Beacons");
+					
+		// add the BARSCORE visualization	
+		bsViz = svg.append("g")
+			.attr("class", "barscore")
+			.attr("transform", "translate(" + margin.left + "," + margin.top +")");
+	
+		// add the BEACON visualization
+		beaconViz = svg.append("g")
+			.attr("class", "beacons")
+			.attr("transform", "translate(" + ( vizWidth/2 + margin.left ) + "," + margin.top +")");
+
+		
+		// refresh the data
+		setInterval(function() {
+			
+			d3.json("http://ec2-54-200-209-241.us-west-2.compute.amazonaws.com/leaderboard/" + leaderCount , function(error, data) {
+		
+				drawBarScoreLeaders(data);
+				drawBeaconLeaders(data);
+						
+			});
+	
+			
+		}, refreshTime);
+		
+		
+		/**
+		 * Draws and updates the BEACON claim leaderboard
+		 */
+		function drawBeaconLeaders(data){
+
+			var beaconLeaders = data.claimLeaders,
+				symbolStartPos = radius + 20,
+				symbolSpacing = (width-25) / 6,
+				symbolSize = 80,
+				rows,
+				row;
+
+			rows = beaconViz.selectAll(".beacon-leader")
+					.data(beaconLeaders, function(d) { return d.USER_ID; });
+
+			// CREATE a node for each new leader
+			row = rows.enter()
+					.append("g")
+					.attr("class","beacon-leader");
+			
+			// name label on left
+			row.append("text")
+				.attr("class", "name")
+				.attr("y", 0)
+				.attr("x", -radius - padding)
+				.attr("dy", ".35em");
+
+			// add photo outer frame
+			row.append("circle")
+				.attr("class", "outerCircle")
+				.attr("r", radius + padding)
+				.attr("cx", 0)
+				.attr("cy", 0);
+			
+			// add photo frame
+			row.append("circle")
+				.attr("class", "picFrame")
+				.attr("r", radius + picFrameWidth) 
+				.attr("cx", 0)
+				.attr("cy", 0);
+
+			// add a ARJIAN symbol
+			row.append("image")
+				.attr("class", "beacon-1")
+				.attr("width", symbolSize)
+  				.attr("height", symbolSize)
+				.attr("transform", "translate(" +  symbolStartPos  +"," + ( -symbolSize/2 ) + ")");
+
+			// add a ISO symbol
+			row.append("image")
+				.attr("class", "beacon-2")
+				.attr("width", symbolSize)
+  				.attr("height", symbolSize)
+				.attr("transform", "translate(" + ( symbolStartPos + symbolSpacing )  +"," + ( -symbolSize/2 ) + ")");
+
+			// add a PROGRAM symbol
+			row.append("image")
+				.attr("class", "beacon-3")
+				.attr("width", symbolSize)
+  				.attr("height", symbolSize)
+				.attr("transform", "translate(" + ( symbolStartPos + symbolSpacing * 2 )  +"," + ( -symbolSize/2 ) + ")");
+
+			// add a NOOBI symbol
+			row.append("image")
+  				.attr("class", "beacon-4")
+				.attr("width", symbolSize)
+  				.attr("height", symbolSize)
+  				.attr("transform", "translate(" + ( symbolStartPos + symbolSpacing * 3 )  +"," + ( -symbolSize/2 ) + ")");
+
+			// add a FIREWALL symbol
+			row.append("image")
+  				.attr("class", "beacon-5")
+				.attr("width", symbolSize)
+  				.attr("height", symbolSize)
+				.attr("transform", "translate(" + ( symbolStartPos + symbolSpacing* 4 ) +"," + ( -symbolSize/2 ) + ")");
+
+			// add a VIRUS symbol
+			row.append("image")
+  				.attr("class", "beacon-6")
+				.attr("width", symbolSize)
+  				.attr("height", symbolSize)
+				.attr("transform", "translate(" + ( symbolStartPos + symbolSpacing * 5 ) +"," + ( -symbolSize/2 ) + ")");
+
+			
+			// add the photo
+			row.append("image")
+				.attr("class", "photo")
+				.attr("xlink:href", function(d) { return imgUrl(d); })
+				.attr("x", -radius)
+      			.attr("y", -radius - radius/2 )
+				.attr("width", radius*2)
+  				.attr("height", radius*1.5*2);
+
+
+
+
+			// DELETE un-needed leader nodes
+			rows.exit().remove();
+			
+			
+			
+			
+			// UPDATE existing leader nodes
+			rows.transition().duration(animDuration).ease("exp-out")
+				.call(positionLeader);
+			
+			// UPDATE name	
+			rows.select(".name")
+				.text(function(d, i) {
+					return (i+1) + '.' + d.NAME;
+				});
+				
+			// UPDATE photo
+			rows.select(".photo")
+			    .attr("xlink:href", function(d) { return imgUrl(d); });
+			
+			// UPDATE ARJIAN symbol
+			rows.select(".beacon-1")
+				.attr("xlink:href", function(d) { return d.BEACON_1 === 1 ? 'svg/arjian_green.svg' : 'svg/arjian.svg'; });
+
+			// UPDATE ISO symbol
+			rows.select(".beacon-2")
+				.attr("xlink:href", function(d) { return d.BEACON_2 === 1 ? 'svg/iso_green.svg' : 'svg/iso.svg'; });
+
+			// UPDATE PROGRAM symbol
+			rows.select(".beacon-3")
+				.attr("xlink:href", function(d) { return d.BEACON_3 === 1 ? 'svg/program_green.svg' : 'svg/program.svg'; });
+
+			// UPDATE NOOBI symbol
+			rows.select(".beacon-4")
+				.attr("xlink:href", function(d) { return d.BEACON_4 === 1 ? 'svg/noobi_green.svg' : 'svg/noobi.svg'; });
+
+			// UPDATE FIREWALL symbol
+			rows.select(".beacon-5")
+				.attr("xlink:href", function(d) { return d.BEACON_5 === 1 ? 'svg/firewall_green.svg' : 'svg/firewall.svg'; });
+
+			// UPDATE VIRUS symbol
+			rows.select(".beacon-6")
+				.attr("xlink:href", function(d) { return d.BEACON_6 === 1 ? 'svg/virus_green.svg' : 'svg/virus.svg'; });
+			
+		}
+		
+		
+
+		/**
+		 * Draws and updates the BARSCORE leaderboard
+		 */		
+		function drawBarScoreLeaders(data){
+
+				var bsLeaders = data.scoreLeaders,
+					bars,
+					bar;
+				
+				bsx.domain(d3.extent(bsLeaders, function(d) { return d.BAR_SCORE; })).nice();
+				
+				bars = bsViz.selectAll(".bs-leader")
+						.data(bsLeaders, function(d) { return d.USER_ID; });
+				
+				
+				// CREATE nodes for each leader
+				bar = bars.enter()
+						.append("g")
+						.attr("class","bs-leader");
+						//.call(positionLeader);
+						//.attr("transform", "translate(0," + vizHeight + 100 + ")");
+				
+				// the bar
+				bar.append("rect")
+					.attr("width", function(d) {
+						return bsx(d.BAR_SCORE) + minBarWidth;
+					})
+					.attr("height", barHeight)
+					.attr("x", 0)
+					.attr("y", -barHeight/2);
+				
+				
+				// score label on right
+				bar.append("text")
+					.attr("class", "score")
+					.attr("y", 0)
+					.attr("dy", ".35em");
+				
+				// name label on left
+				bar.append("text")
+					.attr("class", "name")
+					.attr("y", 0)
+					.attr("x", -radius - padding)
+					.attr("dy", ".35em");
+				
+				
+				// add photo outer frame
+				bar.append("circle")
+					.attr("class", "outerCircle")
+					.attr("r", radius + padding)
+					.attr("cx", 0)
+					.attr("cy", 0);
+				
+				// add photo frame
+				bar.append("circle")
+					.attr("class", "picFrame")
+					.attr("r", radius + picFrameWidth) 
+					.attr("cx", 0)
+					.attr("cy", 0);
+				
+				
+				// add the pic
+				bar.append("image")
+					.attr("class","photo")
+					.attr("xlink:href", function(d) { return imgUrl(d); })
+					.attr("x", -radius)
+	      			.attr("y", -radius - radius/2 )
+					.attr("width", radius*2)
+      				.attr("height", radius*1.5*2);	
+					
+				
+				// DELETE un-needed leader nodes
+				bars.exit().remove();
+
+				
+				// UPDATE existing leader nodes
+				bars.transition().duration(animDuration).ease("exp-out")
+					.call(positionLeader);
+
+					
+				bars.select("rect").transition().duration(animDuration).ease("exp-out")
+					.attr("width", function(d) {
+						return bsx(d.BAR_SCORE) + minBarWidth;
+					});
+				
+				// UPDATE score
+				bars.select(".score")
+					.text(function(d) {
+						return d.BAR_SCORE;
+					})
+					.transition().duration(animDuration).ease("exp-out")
+						.attr("x", function(d) {
+							return bsx(d.BAR_SCORE) + minBarWidth + padding/2;
+						});
+						
+				// UPDATE name	
+				bars.select(".name")
+					.text(function(d, i) {
+						return (i+1) + '.' + d.NAME;
+					});
+					
+				// UPDATE photo
+				bars.select(".photo")
+				    .attr("xlink:href", function(d) { return imgUrl(d); });
+				
+			
+		}
+		
+		// Positions a leader
+		function positionLeader(l) {				
+			l.attr("transform", function(d,i) { 				
+				return "translate(0," + i * (radius*2 + padding*2) +")";
+			});				
+		}
+		
+
+</script>
+
+
