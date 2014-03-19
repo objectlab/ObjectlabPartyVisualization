@@ -9,11 +9,11 @@ When it comes to HTML based visualizations the choice is easy. If you have not h
 
 ### The 'At The Bar' Visualization
 
-We figured the best way to visualize micro-location detection was to simulate typical 'people at the bar' behaviour, to display their mugshot and screen name and attempt to engage them with game related personalized messages. All we needed was an interesting way to mimick people bumping into each other, trying to push through the crowd to order a drink and have a good time.
+We figured the best way to visualize micro-location detection was to simulate typical 'people at the bar' behaviour, to display their mugshot and screen name and attempt to engage them with game related personalized messages. All we needed was an interesting way to mimick people bumping into each other, trying to push through the crowd to order a drink and having a good time.
 
 And here is what we came up with:
 
-![alt text](../img/people-at-bar.jpg "At The Bar Visualization")
+![alt text](/img/people-at-bar.jpg "At The Bar Visualization")
 
 ### The 'Leaderboard' Visualization
 
