@@ -2,6 +2,10 @@
 
 For our party app we implemented 2 visualizations helping to mkae people aware of the game and giving  players a way to show off their game play performance.
 
+When it came to HTML based visualization the choice was easy. We had successfully utilized D3.js for client projects and felt comfortable enough that we would be able to hack up something interesting for this.
+
+If you have not heard about D3.js, it is a JavaScript library for manipulating documents based on data using HTML, SVG and CSS. For more information check out [D3.js](http://www.d3js.org)
+
 ## The 'Leaderboard'
 
 We needed an effective way to make people who were at the party, but not yet playing the game, aware of what we had concocted and hopefully entice them to participate.
