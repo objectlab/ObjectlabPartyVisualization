@@ -28,7 +28,7 @@ force = d3.layout.force()
 	    .charge(-radius*3.5)
 	    .on("tick", onForceTick)
 	    .start();
-
+```
 
 
 ### The 'Leaderboard' Visualization
