@@ -13,7 +13,7 @@ We figured the best way to visualize micro-location detection was to simulate ty
 
 And here is what we came up with:
 
-![alt text](https://ojectlab.github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "At The Bar Visualization")
+![alt text](https://github.com/objectlab/Visualization/blob/master/img/people-at-bar.jpg "At The Bar Visualization")
 
 ### The 'Leaderboard' Visualization
 
