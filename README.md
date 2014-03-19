@@ -1,7 +1,10 @@
 # Visualization
 
+This is the repository for the sorce
 
-Screen visualizations displaying the leaderboards and bar presence.
+We needed an effective way to make people who were at the party, but not yet playing the game, aware of what we had concocted and hopefully entice them to participate.
+For those who were already playing the game, we wanted to visualize how they were doing and allow them to share their progress with others. In addition to the information provided through the iOS App UI we needed to display on highly visible screens how many beacons they had claimed and what kind of impressive barscore they had managed to amass. 
+Most importantly though we wanted some kind of fun way to visualize micro-location detection and share the selfies people took with the iOS App with the rest of the party crowd… 
 
 ### Summary:
 
