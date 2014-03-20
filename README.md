@@ -15,7 +15,7 @@ And here is what we came up with:
 
 ![alt text](/img/people-at-bar.jpg "At The Bar Visualization")
 
-People at the bar are visualized as bubbles floating on the screen. New arrivals would come bouncing onto the screen causing movement eventually settling down until somebody else arrives. They would be greated with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As more people crowd the space and bump into each other more movement happens… you know, typical bar behaviour.
+People at the bar are visualized as bubbles floating on the screen. New arrivals would come bouncing onto the screen causing movement eventually settling down until somebody else arrives. They would be greeted with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As more people crowd the space and bump into each other more movement happens… you know, typical bar behaviour.
 
 [d3.layout.force](https://github.com/mbostock/d3/wiki/Force-Layout#force) constructs a force-directed layout implementing concepts of attraction/repulsion, friction, proximity, charge and gravity along with others. These are all the ingredients needed to accomplish the animation we are looking for.
 
