@@ -14,9 +14,9 @@ To keep things as simple I decided to implement this with a fixed screen size. O
 
 Looking at `margin`, `width` and `height`, note that I am using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
 
-Others worth metioning are `radius` which setts the people-bubble radious and `radiusBig`which is the bubble radious when people first arrive on the sreen. After a little while the bubble animates to get reduced the `radius`.
+Others worth mentioning are `radius` which sets the people-bubble radius and `radiusBig`which is the bubble radius when people first arrive on the sreen. After a little while the bubble animates to get reduced the `radius`.
 
-The rest of these should be quite self explanatory.
+The rest of these should be quite self explanatory after reading the comments.
 
 ```javascript
 // CONFIGS
