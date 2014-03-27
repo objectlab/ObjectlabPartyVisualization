@@ -38,6 +38,7 @@ var svg, // the svg canvas
 	lastLoadedPeople = [], // an array containing the data for most recently loaded people
 	peopleOnScreen = [], // an array containing the data for people currently on the screen
 	force; // the force layout
+	
 ```
 
 ### New Arrival Messages
