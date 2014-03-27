@@ -108,7 +108,9 @@ function getCalloutTxt(d){
 
 ### Constructing a Person
 
-So by now you already know that each person is displayed as a floating bubble on the screen. Here is how these bubbles are implemented.
+So by now you already know that each person is displayed as a floating bubble on the screen. The composition of these bubbles are best illustrated with a sketch.
+
+![alt text](/img/people-bubble.svg "People Bubble Sktech")
 
 
 
