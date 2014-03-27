@@ -43,7 +43,7 @@ var svg, // the svg canvas
 
 ### New Arrival Messages
 
-Our design specified that we wanted to greet people arriving to the bar with game related personalized messages. The messages should be intelligent enough so they would match a persons current game status in the game.
+Our design specified that we wanted to greet people arriving to the bar with game related personalized messages. The messages should be intelligent enough so they would match a persons current game status and encourage them to improve it.
 
 To keep this somewhat simple I set up several arrays containing message objects, one for each of the following scenarious:
 
@@ -108,7 +108,9 @@ function getCalloutTxt(d){
 
 ### Constructing a Person
 
-Describe how each bubble is built
+So by now you already know that each person is displayed as a floating bubble on the screen. Here is how these bubbles are implemented.
+
+
 
 
 ### The Animated Layout
