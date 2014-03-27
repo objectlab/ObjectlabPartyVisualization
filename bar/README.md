@@ -1,13 +1,25 @@
-Bar Presence Visualization
-=============
+### The 'At The Bar' Visualization
 
-Screen visualizations displaying people who are currently in the bar area
+We figured the best way to visualize micro-location detection was to simulate typical 'people at the bar' behaviour, to display their mugshot and screen name and attempt to engage them with game related personalized messages. All we needed was an interesting way to mimick people bumping into each other, trying to push through the crowd to order a drink and having a good time.
 
-Outline:
+And here is what we came up with:
 
-- Layout: why force layout; screen components, rounded photos
-- Updates; figuring out the delta
-- Timing
-- Performance
+![alt text](/img/people-at-bar.jpg "At The Bar Visualization")
+
+People at the bar are visualized as bubbles floating on the screen. New arrivals would come bouncing onto the screen causing movement eventually settling down until somebody else arrives. They would be greeted with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As more people crowd the space and bump into each other more movement happens… you know, typical bar behaviour.
+
+[d3.layout.force](https://github.com/mbostock/d3/wiki/Force-Layout#force) constructs a force-directed layout implementing concepts of attraction/repulsion, friction, proximity, charge and gravity along with others. These are all the ingredients needed to accomplish the animation we are looking for.
+
+ ```javascript
+// configure the force layout
+force = d3.layout.force()
+	    .nodes(peopleOnScreen)
+	    .size([width, height])
+	    .gravity(0.005)
+	    .charge(-radius*3.5)
+	    .on("tick", onForceTick)
+	    .start();
+```
 
 
+### The 'Leaderboard' Visualization
