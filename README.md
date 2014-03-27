@@ -3,9 +3,8 @@
 For our party game app we implemented two visualizations to give players a way to show off their game play performance and make not yet participating party guest aware of the game and hopefully entice them to join in.
 
 - [The 'People At The Bar' Visualization](/bar/)
-
 - [The 'Leaderboard' Visualization](/leaderboard/)
-- 
+
 
 ### D3.js
 
