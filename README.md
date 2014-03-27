@@ -7,13 +7,15 @@ For our party game app we implemented two visualizations to give players a way t
 
 Screen visualizations displaying people who are currently in the bar area
 
-[More detail](/bar/)
+[The details](/bar/)
 
 
 
 #### 'Leaderboard' Visualization
 
 Leaderboard summary
+
+[The details](/leaderboard/)
 
 
 ### D3.js
