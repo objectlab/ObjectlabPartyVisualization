@@ -290,7 +290,7 @@ function contain(){
 
 ### Getting 'Live' Updates from the Server
 
-Now that we have constructed the people-bubble and implemented a nicely animated layout its time to get some data from the server. We wanted this to be as 'live' as possible but also needed to give the client time to introduce all of the newly arrived people.
+Now that we have constructed the people-bubble and implemented a nicely animated layout its time to get some data from the server. We wanted this to be as 'live' as possible but also needed to give the client time to introduce new arrivals on the screen and update whoever was still at the bar.
 
 Upon page load the client would do an initial request for 'people-at-the-bar' data. Then go through the following steps and when completed start all over again:
 
