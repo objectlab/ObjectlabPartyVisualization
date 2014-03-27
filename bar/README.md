@@ -112,7 +112,114 @@ So by now you already know that each person is displayed as a floating bubble on
 
 ![alt text](/img/people-bubble.svg "People Bubble Sktech")
 
+The code to implement this is pretty standard D3 stuff. If you are not familiar with D3 first take a look at:
 
+[D3 selection](https://github.com/mbostock/d3/wiki/Selections)
+
+[D3 selection.data](https://github.com/mbostock/d3/wiki/Selections#data)
+
+So assuming you are ow familiar with selecting extisting DOM elements and binding them to data, here is how a person-bubble is constructed.
+
+> Note that the following code does not only implement the creation of various DOM elements but also takes care of the animation that happens when a person is created on the screen. Initially the person bubble is larger and is displayed with a callout. After a little while the bubble animates to a smaller size and the callout blends out.
+
+So lets get started. First create a svg group that will be our container for all the elements. This is convenient as we can assign a css class, 'person' in this case, for applying styles conveniently.
+
+```javascript
+// create a node for the person
+person = barViz.selectAll(".person")
+    .data(peopleOnScreen, function(d) { return d.USER_ID; })
+	  .enter().append("g")
+	  	.attr("class", "person")
+	  	.attr("userId", function(d){ return d.USER_ID; });
+```
+
+Then append a svg circle which will be our photo frame.
+
+```javascript		    
+// add a bubble
+person.append("circle")
+    	.attr("class", "photo-frame")
+    	.attr("r", radiusBig + picFrameWidth)
+    	.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-in")
+			.attr("r", radius + picFrameWidth);
+```
+
+Now add the photo. To clip the image in so it is displayed in a nice circle we need to append a clip-path first and then the image.
+
+```javascript
+// add a clipping path for the photo
+person.append("clipPath")
+		.attr("id", function(d) { return "clip-path-" + d.USER_ID; })
+		.append("circle")
+			.attr("cx", 0)
+			.attr("cy", 0)
+    		.attr("r", radiusBig)
+    		.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-in")
+				.attr("r", radius);
+			
+// add the photo
+person.append("image")
+	.attr("class", "photo")
+	.style("clip-path", function(d) { return "url(#clip-path-" + d.USER_ID +")"; })
+	.attr("xlink:href", function(d) { return imgUrl(d); })
+	.attr("x", -radiusBig)
+      .attr("y", -radiusBig - radiusBig/2 )
+	.attr("width", radiusBig*2)
+  	.attr("height", radiusBig*1.5*2)
+	.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-in")
+		.attr("x", -radius)
+      	.attr("y", -radius - radius/2 )
+		.attr("width", radius*2)
+  		.attr("height", radius*1.5*2);
+
+```	  				
+
+And last the callout containing our personalized message
+
+```javascript
+  // add a callout
+person.append("image")
+	.attr("class", "callout")
+	.attr("width", calloutW)
+  	.attr("height", calloutH)
+  	.attr("xlink:href", 'svg/callout.svg')
+  	.style("opacity", 0)
+	.attr("transform", "translate(" +  (radiusBig-80)  +"," + ( -radiusBig*2 ) + ")")
+	.transition().duration(animDuration).ease("exp-out")
+		.style("opacity", 1)
+	.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-out")
+		.style("opacity", 0)
+		.remove();
+			
+// add the callout txt
+calloutTxt = person.append("foreignObject")
+		.attr("class", "callout-txt")
+        .attr('x', radiusBig-80)
+        .attr('y', - radiusBig*2)
+        .attr("width", calloutW)
+        .attr("height", calloutH)
+      .append("xhtml:p")
+        .html(function(d) { return getCalloutTxt(d); } );
+
+calloutTxt.transition().delay(timeShowingCallout).duration(animDuration).ease("exp-out")
+		.style("opacity", 0)
+		.remove();				
+
+```
+
+And at last we need a name label that is displayed after the bubble has been resized and the callout disappears.
+
+```javascript
+  // add the partner name
+person.append("text")
+	.attr("class", "name")
+	.attr("y", radius + textPadding)
+	.style("opacity", 0)
+	.text(function(d) { return d.NAME; })
+	.transition().delay(timeShowingCallout+1000).duration(animDuration).ease("exp-out")
+		.style("opacity", 1);  					
+  				
+```
 
 
 ### The Animated Layout
