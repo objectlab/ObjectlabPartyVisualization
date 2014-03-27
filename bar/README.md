@@ -12,33 +12,35 @@ People at the bar are visualized as bubbles floating on the screen. New arrivals
 
 To keep things as simple I decided to implement this with a fixed screen size. Our A/V guys provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top, `vizWidth` and `vizHeight` are used to set the dimensions of the visualization.
 
-Looking at `margin`, `width` and `height`, you might recognize that I am using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
+Looking at `margin`, `width` and `height`, note that I am using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
 
-Others worth metioning are `radius` which setts the people-bubble radius and `radiusBig` which is the bubble radius for people newly arriving on the sreen. After a little while the bubble animates down to radius `radius`.
+Others worth metioning are `radius` which setts the people-bubble radious and `radiusBig`which is the bubble radious when people first arrive on the sreen. After a little while the bubble animates to get reduced the `radius`.
 
 The rest of these should be quite self explanatory.
 
 ```javascript
 // CONFIGS
-var 	svg, // the svg canvas
+var svg, // the svg canvas
 	barViz, // the svg group containing the bar visualization
 	barCount = 10, // the max amount of people-bubble on the screen 
 	refreshTime = 7000, // milliseconds between data refresh requests 
 	vizWidth = 1900, //1920, // total screen width
 	vizHeight = 1060, //1080, // total screen height
 	margin = {top: 30, right: 30, bottom: 30, left: 30},
-	width =  vizWidth - margin.left - margin.right, // width of visualization
-	height = vizHeight - margin.top - margin.bottom, // height of visualization
 	padding = 13, // padding between people-bubbles
 	animDuration = 2000, // the time it takes to animate a change
+	width =  vizWidth - margin.left - margin.right, // width of visualization
+	height = vizHeight - margin.top - margin.bottom, // height of visualization
 	radius = 100, // bubble radius
 	radiusBig = 200, // new arrival bubble radius
 	textPadding = 22,
-	picFrameWidth = 2, // the width of the circle border around the photo
-	lastLoadedPeople = [], // an array containing the most recently loaded data-set
-	peopleOnScreen = [], // an array containing the people who are currently on the screen
+	picFrameWidth = 2,
+	lastLoadedPeople = [],
+	peopleOnScreen = [],
 	force;
 ```
+
+
 
 
 
