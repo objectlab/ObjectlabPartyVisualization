@@ -71,6 +71,37 @@ var newcomerSnippets = [
 			
 ```
 
+The logic for picking the right message is implemented using a very simplistic decission tree. Th passed data object contains the information needed to decide which message to return. Nothing sophisticated, but it seemed to work quite well faking a somewhat intelligent display.
+
+```javascript
+function getCalloutTxt(d){
+	
+	var barscore = d.BAR_SCORE,
+		picture = d.IMG_REF,
+		claims = d.TOTAL_CLAIMS,
+		name = d.NAME,
+		type = function(){
+			// return a random type
+			var types = ['barscore','claims'];
+			return types[Math.floor(Math.random() * types.length)];
+		},
+		score,
+		snippet,
+		snippets;
+	
+	// newcomers
+	if(barscore === 1){				
+		snippets = newcomerSnippets;
+		score = '';
+	}
+	
+	// no Picture
+	else if(picture === null){				
+		snippets = noPhotoSnippets;
+		score = '';
+	}
+	...
+}
 
 
 
