@@ -8,11 +8,16 @@ And here is what we came up with:
 
 People at the bar are visualized as bubbles floating on the screen. New arrivals come bouncing onto the screen from above causing movement and eventually settling down until somebody else arrives. They are greeted with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As more people crowd the space and bump into each other more movement happens… you know, kind of typical bar behaviour.
 
+### Constructing a Person
+
+Describe how each bubble is built
+
+
 ### The Animated Layout
 
 To auto-position and animate the people I am using [d3.layout.force](https://github.com/mbostock/d3/wiki/Force-Layout#force) which constructs a force-directed layout and does all of the complicated math for us to simulate attraction/repulsion, friction, proximity, charge and gravity along with others. These are all the ingredients needed to accomplish what we need.
 
- ```javascript
+```javascript
 // configure the force layout
 force = d3.layout.force()
 	    .nodes(peopleOnScreen)
@@ -23,5 +28,16 @@ force = d3.layout.force()
 	    .start();
 ```
 
+### Getting 'Live' Updates from the Server
 
-### The 'Leaderboard' Visualization
+- Describe how to poll the server
+- Describe how to establish the delta
+
+
+### Newcomers, Updates and Departures
+
+- Why we can simply apply newly loaded data 
+
+
+
+
