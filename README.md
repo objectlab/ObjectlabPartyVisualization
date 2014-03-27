@@ -1,6 +1,6 @@
 # Party App Visualizations
 
-For our party app we implemented two visualizations for the purpose of making party guest aware of the game and hopefully enticing them to participate, and giving players a way to show off their game play performance.
+For our party game app we implemented two visualizations to give players a way to show off their game play performance and make party guest aware of the game and hopefully entice them to participate.
 
 ### D3.js
 
