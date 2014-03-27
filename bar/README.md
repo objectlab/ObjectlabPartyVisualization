@@ -8,7 +8,7 @@ And here is what we came up with:
 
 People at the bar are visualized as bubbles floating on the screen. New arrivals come bouncing onto the screen from above causing movement and eventually settling down until somebody else arrives. They are greeted with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As more people crowd the space and bump into each other more movement happens… you know, kind of typical bar behaviour.
 
-### Fixed Screen Size
+### Fixed Screen Size 
 
 - Explain fixed screen size
 
