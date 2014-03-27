@@ -1,11 +1,13 @@
 # Party App Visualizations
 
-For our party game app we implemented two visualizations to give players a way to show off their game play performance and make party guest aware of the game and hopefully entice them to participate.
+For our party game app we implemented two visualizations to give players a way to show off their game play performance and make not yet participating party guest aware of the game and hopefully entice them to join in.
 
 
 #### 1. 'At The Bar' Visualization
 
 Screen visualizations displaying people who are currently in the bar area
+
+[More detail](/bar/)
 
 
 
