@@ -10,7 +10,7 @@ People at the bar are visualized as bubbles floating on the screen. New arrivals
 
 ### Fixed Screen Size and Other Settings
 
-To keep things as simple I decided to implement this with a fixed screen sizee. Our A/V guys provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top:
+To keep things as simple I decided to implement this with a fixed screen size. Our A/V guys provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top:
 
 ```javascript
 // CONFIGS
