@@ -40,6 +40,36 @@ var svg, // the svg canvas
 	force; // the force layout
 ```
 
+### New Arrival Messages
+
+Our design specified that we wanted to greet people arriving to the bar with game related personalized messages. The messages should be intelligent enough so they would match a persons current game status in the game.
+
+To keep this somewhat simple I set up several arrays containing message objects, one for each of the following scenarious:
+
+- Newcomers
+- Players without a photo
+- Players with various bar score levels
+- Players with various amounts of beacons collected
+
+To allow for various message formats, each message object contained a greeting, a start and and end-text snippet. Depending on the message type a barscore of beacon count would be inserted between start and end...
+
+
+```javascript
+// CALLOUTS for Newcomers
+// does NOT use score
+var newcomerSnippets = [
+	{
+		greeting: 'Hi',
+		start: 'Get a drink',
+		end: 'to boost your bar score!'
+	}, {
+		greeting: 'Yo',
+		start: 'Find a beacon to play the game!',
+		end: ''
+	},
+	...
+			
+```
 
 
 
