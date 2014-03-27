@@ -294,10 +294,16 @@ Now that we have constructed the people-bubble and implemented a nicely animated
 
 Upon page load the client would do an initial request for 'people-at-the-bar' data. Then go through the following steps and when completed start all over again:
 
-1. Remove people who had left the bar area from the screen
-2. Display new arrivals one at a time as described in great detail already
-3. Update photos and screen names for people what are still at the bar
-4. Then make the next request to the server for new data.
+1. Remove people who had left the bar area
+2. Display new arrivals one at a time
+3. Update photos and screen names for people still at the bar
+4. Poll the server for new data
+
+D3 makes binding data to DOM elements very easy, so we could have simply done this with the usual `d3.selectAll().data()...` but this would have everybody who is new come onto the screen at once. Not really typical bar behaviour, more of an explosion which is definitely not what we were looking for.
+
+So instead I implemented a helper that would compare newly vs previously loaded people identifying people who had left, changed are are new. For the details take a quick lokk at the data helper functions in the source.
+
+
 
 ```javascript
 
@@ -334,12 +340,6 @@ function updateViz (delta){
 }
 
 ```
-
-
-### Newcomers, Updates and Departures
-
-- Why we can simply apply newly loaded data 
-
 
 
 
