@@ -8,9 +8,34 @@ And here is what we came up with:
 
 People at the bar are visualized as bubbles floating on the screen. New arrivals come bouncing onto the screen from above causing movement and eventually settling down until somebody else arrives. They are greeted with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As more people crowd the space and bump into each other more movement happens… you know, kind of typical bar behaviour.
 
-### Fixed Screen Size 
+### Fixed Screen Size and Other Settings
 
-- Explain fixed screen size
+To keep things as simple I decided to implement this with a fixed screen sizee. Our A/V guys provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top:
+
+```javascript
+// CONFIGS
+    var svg, // the svg canvas
+	barViz, // the svg group containing the bar visualization
+	barCount = 10, // the max amount of people-bubble on the screen 
+	refreshTime = 7000, // milliseconds between data refresh requests 
+	vizWidth = 1900, //1920, // total screen width
+	vizHeight = 1060, //1080, // total screen height
+	margin = {top: 30, right: 30, bottom: 30, left: 30},
+	padding = 13, // padding between people-bubbles
+	animDuration = 2000, // the time it takes to animate a change
+	width =  vizWidth - margin.left - margin.right, // width of visualization
+	height = vizHeight - margin.top - margin.bottom, // height of visualization
+	radius = 100, // bubble radius
+	radiusBig = 200, // new arrival bubble radius
+	textPadding = 22,
+	picFrameWidth = 2,
+	lastLoadedPeople = [],
+	peopleOnScreen = [],
+	force;
+```
+
+
+
 
 
 ### Constructing a Person
