@@ -237,7 +237,12 @@ force = d3.layout.force()
 	    .start();
 ```
 
-Note that the force layout implements a callback for each 'animation-tick' that allows for implementing some custom behaviour. In our case we want to prevent the bubbles to bounce off the screen so I have implemented a layout help that assists us with that.
+After playing around with various configurations I found that using `gravity` and `charge` are sufficient to accomplish the desired effect. 
+
+`Gravity` simulates just that and adds continuos motion giving us the 'floating' we are looking for.
+`Charge` gives each bubble somthing like a negative charge so bubbles bounce off each other.
+
+Now all we have to do is implement a callback for each 'animation' tick. The force layout already calculates x/y positions for a bubble. However we need to make sure bubble are not bouncing off the screen. This can be implemented with a layout helper `contain()`.
 
 ```javascript
 /**
@@ -251,11 +256,7 @@ function onForceTick(e){
       	
 }
 
-```
 
-and here
-
-```javascript
 /**
  * contain person within the screen area
  */
