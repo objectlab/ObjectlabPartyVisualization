@@ -22,22 +22,22 @@ The rest of these should be quite self explanatory.
 // CONFIGS
 var svg, // the svg canvas
 	barViz, // the svg group containing the bar visualization
-	barCount = 10, // the max amount of people-bubble on the screen 
+	barCount = 10, // the max amount of people on the screen 
 	refreshTime = 7000, // milliseconds between data refresh requests 
-	vizWidth = 1900, //1920, // total screen width
-	vizHeight = 1060, //1080, // total screen height
-	margin = {top: 30, right: 30, bottom: 30, left: 30},
+	vizWidth = 1900, //1920, // total available screen width
+	vizHeight = 1060, //1080, // total available screen height
+	margin = {top: 30, right: 30, bottom: 30, left: 30}, // margin object
+	width =  vizWidth - margin.left - margin.right, // calculated width of visualization
+	height = vizHeight - margin.top - margin.bottom, // calculated height of visualization
 	padding = 13, // padding between people-bubbles
 	animDuration = 2000, // the time it takes to animate a change
-	width =  vizWidth - margin.left - margin.right, // width of visualization
-	height = vizHeight - margin.top - margin.bottom, // height of visualization
 	radius = 100, // bubble radius
 	radiusBig = 200, // new arrival bubble radius
-	textPadding = 22,
-	picFrameWidth = 2,
-	lastLoadedPeople = [],
-	peopleOnScreen = [],
-	force;
+	textPadding = 22, // the padding between the photo frame and the screen name label
+	picFrameWidth = 2, // the stroke-width of the circle border around the photo
+	lastLoadedPeople = [], // an array containing the data for most recently loaded people
+	peopleOnScreen = [], // an array containing the data for people currently on the screen
+	force; // the force layout
 ```
 
 
