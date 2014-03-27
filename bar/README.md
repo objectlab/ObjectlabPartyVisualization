@@ -258,7 +258,6 @@ function onForceTick(e){
       	
 }
 
-
 /**
  * contain person within the screen area
  */
@@ -284,6 +283,7 @@ function contain(){
 		
 	};
 }
+
 ```
 
 
