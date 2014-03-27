@@ -20,6 +20,5 @@ Leaderboard summary
 
 When it comes to HTML based visualizations the choice is easy. If you have not heard about D3.js, it is a JavaScript library for manipulating documents based on data using HTML, SVG and CSS. For more information check out [D3.js](http://www.d3js.org)
 
-More detail on each visualization:
 
 
