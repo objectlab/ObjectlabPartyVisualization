@@ -290,8 +290,50 @@ function contain(){
 
 ### Getting 'Live' Updates from the Server
 
-- Describe how to poll the server
-- Describe how to establish the delta
+Now that we have constructed the people-bubble and implemented a nicely animated layout its time to get some data from the server. We wanted this to be as 'live' as possible but also needed to give the client time to introduce all of the newly arrived people.
+
+Upon page load the client would do an initial request for 'people-at-the-bar' data. Then go through the following steps and when completed start all over again:
+
+1. Remove people who had left the bar area from the screen
+2. Display new arrivals one at a time as described in great detail already
+3. Update photos and screen names for people what are still at the bar
+4. Then make the next request to the server for new data.
+
+```javascript
+
+function updateViz (delta){
+		
+		// DEBUG
+		console.log(peopleOnScreen.length + ' On Screen ... ' + delta.deleted.length +' Deleted | ' + delta.added.length +   ' Added | ' + delta.changed.length + ' Changed');
+		
+		// if any people have left the bar start with removing them
+		if(delta.deleted.length > 0) {
+			removeDepartures(delta);
+		} 
+		// otherwise if new people have arrived start with adding them
+		else if(delta.added.length > 0) {
+			addArrivals(delta);
+		}				
+		// otherwise if there are only changes update people currently at the bar
+		else if(delta.changed.length > 0) {
+			updateBingers(delta);
+		}
+		// otherwise load a new data set
+		else {
+			
+			// increase the local data idx
+			dataIdx++;			
+			if(dataIdx === 6){
+				dataIdx = 0;
+			}
+									
+			getData();
+			
+		}
+				
+}
+
+```
 
 
 ### Newcomers, Updates and Departures
