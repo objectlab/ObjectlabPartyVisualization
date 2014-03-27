@@ -10,7 +10,7 @@ People at the bar are visualized as bubbles floating on the screen. New arrivals
 
 ### The Animated Layout
 
-To auto-position and animate the people I am using [d3.layout.force](https://github.com/mbostock/d3/wiki/Force-Layout#force) which constructs a force-directed layout implementing concepts of attraction/repulsion, friction, proximity, charge and gravity along with others. These are all the ingredients needed to accomplish the animation we are looking for.
+To auto-position and animate the people I am using [d3.layout.force](https://github.com/mbostock/d3/wiki/Force-Layout#force) which constructs a force-directed layout and does all of the complicated math for us to simulate attraction/repulsion, friction, proximity, charge and gravity along with others. These are all the ingredients needed to accomplish what we need.
 
  ```javascript
 // configure the force layout
