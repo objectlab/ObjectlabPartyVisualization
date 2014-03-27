@@ -10,7 +10,13 @@ People at the bar are visualized as bubbles floating on the screen. New arrivals
 
 ### Fixed Screen Size and Other Settings
 
-To keep things as simple I decided to implement this with a fixed screen size. Our A/V guys provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top:
+To keep things as simple I decided to implement this with a fixed screen size. Our A/V guys provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top, `vizWidth` and `vizHeight` are used to set the dimensions of the visualization.
+
+Looking at `margin`, `width` and `height`, note that I am using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
+
+Others worth metioning are `radius` which setts the people-bubble radious and `radiusBig`which is the bubble radious when people first arrive on the sreen. After a little while the bubble animates to get reduced the `radius`.
+
+The rest of these should be quite self explanatory.
 
 ```javascript
 // CONFIGS
