@@ -11,7 +11,7 @@ For our party game app we implemented two visualizations to give players a way t
 
 When it comes to HTML based visualizations the choice is easy. If you have not heard about D3.js, it is a JavaScript library for manipulating documents based on data using HTML, SVG and CSS. For more information check out [D3.js](http://www.d3js.org)
 
-#### Browser Support
+### Browser Support
 
 The visualizations featured here have been developed for a controlled environment and have been tested to work with Chrome only. They propbably work with other modern browsers but I havn't tested them. 
 
