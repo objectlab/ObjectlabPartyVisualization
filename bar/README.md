@@ -224,7 +224,7 @@ person.append("text")
 
 ### The Animated Layout
 
-To auto-position and animate the people I am using [d3.layout.force](https://github.com/mbostock/d3/wiki/Force-Layout#force) which constructs a force-directed layout and does all of the complicated math for us to simulate attraction/repulsion, friction, proximity, charge and gravity along with others. These are all the ingredients needed to accomplish what we need.
+To auto-position and animate the people I am using [d3.layout.force](https://github.com/mbostock/d3/wiki/Force-Layout#force) which constructs a force-directed layout and does all of the complicated math for us to simulate simulate the physics of bubbles floating and bumping off each other and the sides.
 
 ```javascript
 // configure the force layout
@@ -236,6 +236,54 @@ force = d3.layout.force()
 	    .on("tick", onForceTick)
 	    .start();
 ```
+
+Note that the force layout implements a callback for each 'animation-tick' that allows for implementing some custom behaviour. In our case we want to prevent the bubbles to bounce off the screen so I have implemented a layout help that assists us with that.
+
+```javascript
+/**
+ * called on every tick of the 'force' layout while it is running
+ */
+function onForceTick(e){
+	
+	barViz.selectAll(".person")
+      	.each(contain())
+      	.attr("transform", function(d) { return "translate(" + d.x + "," + d.y +")"; } );
+      	
+}
+
+```
+
+and here
+
+```javascript
+/**
+ * contain person within the screen area
+ */
+function contain(){
+	
+	return function(d){	
+		
+		var limit = radius + textPadding;
+		
+		if( d.x > width - limit ) {
+			d.x = width - limit ;
+		}
+		else if( d.x < limit ){
+			d.x = limit;
+		}
+		
+		if( d.y > height - limit ) {
+			d.y = height - limit;
+		}
+		else if( d.y < limit ){
+			d.y = limit;
+		}			
+		
+	};
+}
+```
+
+
 
 ### Getting 'Live' Updates from the Server
 
