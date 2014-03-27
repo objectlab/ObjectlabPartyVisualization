@@ -72,7 +72,7 @@ var newcomerSnippets = [
 			
 ```
 
-The logic for picking the right message is implemented using a very simplistic decission tree. Th passed data object contains the information needed to decide which message to return. Nothing sophisticated, but it seemed to work quite well faking a somewhat intelligent display.
+The logic for picking the right message is implemented using a very simplistic decission tree. The passed data object contains the information needed to decide which message to return. Nothing sophisticated, but it seemed to work quite well faking a somewhat intelligent display.
 
 ```javascript
 function getCalloutTxt(d){
