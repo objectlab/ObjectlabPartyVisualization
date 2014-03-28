@@ -1,6 +1,6 @@
 ### The 'People At The Bar' Visualization
 
-We figured the best way to visualize micro-location detection was to simulate typical 'people at the bar' behaviour, to display their mugshot and screen name and attempt to engage them with game related personalized messages. All we needed was an interesting way to mimick people bumping into each other, trying to push through the crowd to order a drink and having a good time.
+We figured the best way to visualize micro-location detection was to simulate typical 'people at the bar' behaviour; to display their mugshot and screen name and attempt to engage them with game related personalized messages. All we needed was an interesting way to mimick people bumping into each other, trying to push through the crowd to order a drink and having a good time.
 
 And here is what we came up with:
 
@@ -10,7 +10,7 @@ People at the bar are visualized as bubbles floating on the screen. New arrivals
 
 ### Fixed Screen Size and Other Configurations
 
-To keep things as simple I decided to implement this with a fixed screen size. Our A/V guys at the party location provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top, `vizWidth` and `vizHeight` are used to set the dimensions of the visualization.
+To keep things as simple I decided to implement this with a fixed screen size. Our A/V guys at the party location provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top; `vizWidth` and `vizHeight` are used to set the dimensions of the visualization.
 
 Looking at `margin`, `width` and `height`, note that I am using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
 
