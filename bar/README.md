@@ -6,11 +6,11 @@ And here is what we came up with:
 
 ![alt text](/img/people-at-bar.jpg "At The Bar Visualization")
 
-People at the bar are visualized as bubbles floating on the screen. New arrivals come bouncing onto the screen from above causing movement and eventually settling down until somebody else arrives. They are greeted with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As more people crowd the space and bump into each other more movement happens… you know, kind of typical bar behaviour.
+People at the bar are visualized as bubbles floating on the screen. New arrivals come bouncing onto the screen from above causing movement and eventually settling down until somebody else arrives. They are greeted with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As additional people crowd the space and bump into each other more movement happens… you know, kind of typical bar behaviour.
 
 ### Fixed Screen Size and Other Configurations
 
-To keep things as simple I decided to implement this with a fixed screen size. Our A/V guys provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top, `vizWidth` and `vizHeight` are used to set the dimensions of the visualization.
+To keep things as simple I decided to implement this with a fixed screen size. Our A/V guys at the party location provided screens with 1900x1060 resolution so that is what I used. Looking at the source code you will notice several variables being set at the top, `vizWidth` and `vizHeight` are used to set the dimensions of the visualization.
 
 Looking at `margin`, `width` and `height`, note that I am using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
 
