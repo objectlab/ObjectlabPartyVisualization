@@ -347,7 +347,7 @@ Again we create a svg group that will be our container for all the DOM elements 
 			.attr("class","beacon-leader");
 
 ```
-Then we append a svg text element for the screen name and 2 svg circles creating the frame for the player picture
+Then we append a svg text element for the screen name and 2 svg circles creating the frame for the player picture as well as a svg image for the picture. As described above by applying the css class `.photo` we get a nicely rounded image.
 
 ```javascript
 	// name label on left
@@ -370,13 +370,89 @@ Then we append a svg text element for the screen name and 2 svg circles creating
 		.attr("r", radius + picFrameWidth) 
 		.attr("cx", 0)
 		.attr("cy", 0);
+		
+	...
+	
+	// add the photo
+	row.append("image")
+		.attr("class", "photo")
+		.attr("xlink:href", function(d) { return imgUrl(d); })
+		.attr("x", -radius)
+      	.attr("y", -radius - radius/2 )
+		.attr("width", radius*2)
+  		.attr("height", radius*1.5*2);
 
 
 ```
 
 I mentioned earlier that we chose to use specific symbols inspired by TRON to represent each beacon hidden in the club. Beacons that have been claimed by a user would be highlighted, unclaimed beacons grayed out.
 
-To render the symbols we created svg files for each symbol which then can be used as the src for a svg image element.
+To accomplish this we created svg files for each beacon and used them as the src for a svg image element. In our case we had 2 svg files for each symbol, one highlighted, the other one grayed out. 
+
+> There is most likely a more elegant approach to this. Something that would use a svg path and then use css to change the color of a symbol, but given our very aggressive timeframe we did not have time for 'elegance'. And this worked just fine.
+
+The game allowed the collection of 6 beacons the following shows the code for one of them... the ARJIAN beacon.
+
+During construction, all we have to do is create a svg image that does not have a source just yet. So we can conveniently select the image and update it we apply the css class `.beacon-1`.
+
+```javascript
+
+	// add a ARJIAN symbol
+	row.append("image")
+		.attr("class", "beacon-1")
+		.attr("width", symbolSize)
+	  	.attr("height", symbolSize)
+		.attr("transform", "translate(" +  symbolStartPos  +"," + ( -symbolSize/2 ) + ")");
+
+
+```
+
+###Remove Un-needed Players 
+
+Just like for the Barscore Leaderboard, we only want to display the top players...
+
+```javascript
+
+	// DELETE un-needed leader nodes
+	rows.exit().remove();
+
+```
+
+###Update Extisting Beacon Claim Leaders
+
+And again for players who are already displayed from a previous data load we need to update their vertical position, their screen name and photo.
+
+```javascript
+
+	// UPDATE existing leader nodes
+	rows.transition().duration(animDuration).ease("exp-out")
+		.call(positionLeader);
+	
+	// UPDATE name	
+	rows.select(".name")
+		.text(function(d, i) {
+			return (i+1) + '.' + d.NAME;
+		});
+		
+	// UPDATE photo
+	rows.select(".photo")
+	    .attr("xlink:href", function(d) { return imgUrl(d); });
+	    
+
+```
+
+To highlight the beacons they have claimed we can simply select the symbols and set the correct src for the svg image element. Again shown here for the ARJIAN beacon.
+
+```javascript
+
+	// UPDATE ARJIAN symbol
+	rows.select(".beacon-1")
+		.attr("xlink:href", function(d) { return d.BEACON_1 === 1 ? 'svg/arjian_green.svg' : 'svg/arjian.svg'; });
+
+
+```
+
+
 
 
 
