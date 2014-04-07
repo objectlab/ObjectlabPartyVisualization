@@ -443,7 +443,7 @@ And again for players who are already displayed from a previous data load we nee
 
 ```
 
-To highlight the beacons they have claimed we can simply select the symbols and set the correct src for the svg image element. Again shown here for the ARJIAN beacon.
+And at last, to highlight the beacons they have claimed we can simply select the symbols and set the correct src for the svg image element depending on the players beacon collection value `d.BEACON_1`. 
 
 ```javascript
 
@@ -454,6 +454,7 @@ To highlight the beacons they have claimed we can simply select the symbols and 
 
 ```
 
+That is folks, I hope this write up is somewhat helpful.
 
 
 
