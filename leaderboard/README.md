@@ -309,7 +309,7 @@ For players who are already displayed from a previous data load we need to updat
 
 ## 2.The Beacon Leaderboard
 
-The Beacon Leaderboard shows the players who were most successful at collecting beacons and highlights the ones they had claimed.
+The Beacon Leaderboard shows the players who were most successful at collecting beacons and highlights the ones they have claimed.
 
 Looking at the source you will find `drawBeaconLeaders()` which expects a `data` argument containg the most recent group of barscore leaders in the `data.claimLeaders` array.
 
