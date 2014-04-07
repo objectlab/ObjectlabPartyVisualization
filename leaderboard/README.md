@@ -108,7 +108,7 @@ function drawBarScoreLeaders(data){
 		
 ```
 
-In order to update players who are allready displayed on the screen, instead of simply re-drawing the bar chart, we bind existing DOM elements to the newly loaded data.
+In order to nicely update players who are allready displayed on the screen, instead of simply re-drawing the entire bar chart everytime we refresh the data, we need to bind existing DOM elements to the newly loaded data.
 
 
 ```javascript
@@ -120,7 +120,7 @@ In order to update players who are allready displayed on the screen, instead of 
 
 ###Constructing New Barscore Leaders
 
-The first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign the css class `.bs-leader` for applying all css formatting.
+Our first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign the css class `.bs-leader` for applying all css formatting.
 
 ```javascript
 
