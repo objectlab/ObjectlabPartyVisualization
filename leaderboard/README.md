@@ -1,11 +1,18 @@
-Visualization
+Leaderboard Visualization
 =============
 
-Screen visualizations displaying barscore and beacon claim leaderboards
+The Leaderboard visualization needed to show the current leaders in both game play objectives.
 
-Outline:
+First, a leaderboard for the highest barscore. We figured the more people frequented the bar the more drinks they had to be consuming.  Therefore the complicated mathematical equation of:
 
-- Inventory of what is on the screen
-- round pics clipping
-- beacon symbols rendering using svg
-- update animation
+> high barscore = high level of drunkenness
+
+The second game objective would be to claim all of the Beacons hidden in the club. The party had somewhat of a TRON related theme, so to visualize each beacon we borrowed some nerdtastic TRON symbols.
+
+For both leaderboards we wanted to display the selfies the players had taken with the iOS App and display their player name.
+
+And here is what the end reult looks like:
+
+<img src="/img/visualization-banner.jpg">
+
+
