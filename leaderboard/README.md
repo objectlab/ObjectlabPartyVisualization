@@ -156,6 +156,21 @@ Now we append a svg rectangle for our barscore 'bar', svg text elements for a sc
 			.attr("y", 0)
 			.attr("x", -radius - padding)
 			.attr("dy", ".35em");
+
+		// add photo outer frame
+		bar.append("circle")
+			.attr("class", "outerCircle")
+			.attr("r", radius + padding)
+			.attr("cx", 0)
+			.attr("cy", 0);
+		
+		// add photo frame
+		bar.append("circle")
+			.attr("class", "picFrame")
+			.attr("r", radius + picFrameWidth) 
+			.attr("cx", 0)
+			.attr("cy", 0);
+			
 ```
 
 And finally we add the player picture which is a svg image.
