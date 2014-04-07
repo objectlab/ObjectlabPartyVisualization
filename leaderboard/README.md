@@ -72,31 +72,87 @@ The callback then calls `drawBarScoreLeaders()' and 'drawBeaconLeaders()' passin
 
 ```
 
+### Binding DOM Elements to Data with D3js
 
-### Constructing the Barscore Leaderboard
+Before you read on it will be helpful if you have a general understanding of binding DOM elements to data using D3js.
 
-The Barscore Leaderboard is basically a bar chart with screen name labels and a players' picture on the left and barscores displayed on the right. Leading players are shown on the top, new leaderboard arrivals animate onto the screen from above pushing less successful players off the screen, position changes would animate respectively.
-
-The code to implement this is pretty standard D3 stuff. If you are not familiar with D3 first take a look at:
+If you are not familiar with this please take a look at:
 
 [D3 selection](https://github.com/mbostock/d3/wiki/Selections)
 
 [D3 selection.data](https://github.com/mbostock/d3/wiki/Selections#data)
 
-So assuming now that you are familiar with selecting extisting DOM elements and binding them to data, this should look familiar:
+
+## The Barscore Leaderboard
+
+The Barscore Leaderboard is basically a bar chart with screen name labels and a players' picture on the left and barscores displayed on the right. Leading players are shown on the top, new leaderboard arrivals animate onto the screen from above pushing less successful players off the screen, position changes would animate respectively.
+
+
+
+
+
+
+## The Beacon Leaderboard
+
+The Beacon Leaderboard would simply show the players who were most successful at collecting beacons and highlight the ones they had claimed.
+
+Looking at the source code you will find `drawBeaconLeaders()` which expects the `data` argument containg the most recent group of barscore leaders.
 
 ```javascript 
 
-rows = beaconViz.selectAll(".beacon-leader")
-		.data(beaconLeaders, function(d) { return d.USER_ID; });
+/**
+ * Draws and updates the BEACON claim leaderboard
+ */
+function drawBeaconLeaders(data){
+
+	var beaconLeaders = data.claimLeaders,
+		symbolStartPos = radius + 20,
+		symbolSpacing = (width-25) / 6,
+		symbolSize = 80,
+		rows,
+		row;
+	
+	// bind data to DOM elements
+	rows = beaconViz.selectAll(".beacon-leader")
+			.data(beaconLeaders, function(d) { return d.USER_ID; });
 
 ```
 
-
+#### Constructing New Leaders
 
 First create a svg group that will be our container for all the elements. This is convenient as we can assign a css class, 'beacon-leader' in this case, for applying styles conveniently.
 
 ```javascript 
+	
+	// CREATE a node for each new leader
+	row = rows.enter()
+			.append("g")
+			.attr("class","beacon-leader");
+
+```
+Then create a screen name label and 2 circles creating the frame for the player picture
+
+```javascript
+	// name label on left
+	row.append("text")
+		.attr("class", "name")
+		.attr("y", 0)
+		.attr("x", -radius - padding)
+		.attr("dy", ".35em");
+
+	// add photo outer frame
+	row.append("circle")
+		.attr("class", "outerCircle")
+		.attr("r", radius + padding)
+		.attr("cx", 0)
+		.attr("cy", 0);
+
+	// add photo frame
+	row.append("circle")
+		.attr("class", "picFrame")
+		.attr("r", radius + picFrameWidth) 
+		.attr("cx", 0)
+		.attr("cy", 0);
 
 
 ```
