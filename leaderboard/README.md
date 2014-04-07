@@ -15,8 +15,6 @@ And here is what the end result looks like:
 
 ![alt text](/img/visualization-banner.jpg "Leaderboard Visualization")
 
-The Barscore Leaderboard is basically a bar chart with screen name labels on the left and barscores displayed on the right. To tie this to the ‘At The Bar’ Visualization we used bubbles for each player to display their selfie. We would show the leading players on the top, new leaderboard arrivals would animate onto the screen from above pushing less successful players off the screen, position changes would animate respectively.
-
 ### Fixed Screen Size and Other Configurations
 
 Again, similar to the ['People At The Bar' Visualization](/bar/) I decided to implement this with a fixed screen size of 1900x1060 resolution using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
@@ -70,14 +68,38 @@ The callback then calls `drawBarScoreLeaders()' and 'drawBeaconLeaders()' passin
 
 			});
 
-
 		}, refreshTime);
 
 ```
 
 
+### Constructing the Barscore Leaderboard
 
-### The Barscore Leaderboard
+The Barscore Leaderboard is basically a bar chart with screen name labels and a players' picture on the left and barscores displayed on the right. Leading players are shown on the top, new leaderboard arrivals animate onto the screen from above pushing less successful players off the screen, position changes would animate respectively.
+
+The code to implement this is pretty standard D3 stuff. If you are not familiar with D3 first take a look at:
+
+[D3 selection](https://github.com/mbostock/d3/wiki/Selections)
+
+[D3 selection.data](https://github.com/mbostock/d3/wiki/Selections#data)
+
+So assuming now that you are familiar with selecting extisting DOM elements and binding them to data, this should look familiar:
+
+```javascript 
+
+rows = beaconViz.selectAll(".beacon-leader")
+		.data(beaconLeaders, function(d) { return d.USER_ID; });
+
+```
+
+
+
+First create a svg group that will be our container for all the elements. This is convenient as we can assign a css class, 'beacon-leader' in this case, for applying styles conveniently.
+
+```javascript 
+
+
+```
 
 
 
