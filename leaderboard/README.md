@@ -87,7 +87,7 @@ If you are not familiar with, this please take a look at:
 [D3 selection.data](https://github.com/mbostock/d3/wiki/Selections#data)
 
 
-## The Barscore Leaderboard
+## 1.The Barscore Leaderboard
 
 The Barscore Leaderboard is basically a horizontal bar chart with screen name labels and a players' picture on the left and barscores displayed on the right. Leading players are shown on the top, new leaderboard arrivals animate onto the screen from above pushing less successful players off the screen; position changes animate respectively.
 
@@ -271,7 +271,7 @@ For players who are already displayed from a previous data load we need to updat
 
 
 
-## The Beacon Leaderboard
+## 2.The Beacon Leaderboard
 
 The Beacon Leaderboard shows the players who were most successful at collecting beacons and highlight the ones they had claimed.
 
