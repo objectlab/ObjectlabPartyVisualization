@@ -395,7 +395,7 @@ To accomplish this we created svg files for each beacon and used them as the src
 
 The game allowed the collection of a total of 6 beacons. The following only shows the code for one of them... the ARJIAN beacon.
 
-During construction, all we have to do is create a svg image that does not have a source just yet. So we can conveniently select the image and update it we apply the css class `.beacon-1`.
+During construction, all we have to do is create a svg image that does not have a source just yet. For the purpose of conveniently selecting and updating the image we apply the css class `.beacon-1`.
 
 ```javascript
 
