@@ -63,7 +63,7 @@ The callback defined for `d3.json()` then calls `drawBarScoreLeaders()` and `dra
 		// refresh the data
 		setInterval(function() {
 
-			d3.json("http://ec2-54-200-209-241.us-west-2.compute.amazonaws.com/leaderboard/" + leaderCount , function(error, data) {
+			d3.json("http://Your/Server/leaderboard/" + leaderCount , function(error, data) {
 
 				drawBarScoreLeaders(data);
 				drawBeaconLeaders(data);
