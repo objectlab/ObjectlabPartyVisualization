@@ -118,7 +118,7 @@ The code to implement this is pretty standard D3 stuff. If you are not familiar 
 
 [D3 selection.data](https://github.com/mbostock/d3/wiki/Selections#data)
 
-Assuming now that you are ow familiar with selecting extisting DOM elements and binding them to data, here is how a person-bubble is constructed.
+Assuming now that you are familiar with selecting extisting DOM elements and binding them to data, here is how a person-bubble is constructed.
 
 > Note that the following code does not only implement the creation of various DOM elements but also takes care of the animation that happens when a person is created on the screen. Initially the person bubble is larger and is displayed with a callout. After a little while the bubble animates to a smaller size and the callout blends out.
 
