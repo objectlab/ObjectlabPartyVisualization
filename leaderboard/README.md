@@ -120,7 +120,7 @@ Then we bind existing DOM elements to the newly loaded data.
 
 ##### Constructing New Barscore Leaders
 
-The first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign a css class, `.bs-leader` in this case, for applying styles conveniently.
+The first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign the css class `.bs-leader` for applying all css formatting.
 
 ```javascript
 
@@ -172,7 +172,7 @@ And finally we add the player picture which is a svg image.
 
 ```
 
-In order to apply a circular clipping path we need to create a clipping path.
+In order to get the circular photos we need to create a clipping path:
 
 ```html
 <div style="height: 0;">
@@ -192,7 +192,7 @@ In order to apply a circular clipping path we need to create a clipping path.
 </div>
 ```
 
-And then use that in our `.photp` css efinition so the clipping path is applied to the image
+Which we can then reference from our `.photo` css definition.
 
 ```css
 	#leaderboard .photo {
