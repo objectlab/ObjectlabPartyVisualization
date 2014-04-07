@@ -56,7 +56,7 @@ All of these should be quite self explanatory after reading the comments.
 
 ### Real-time Server Updates
 
-We implemented this with simple client-server polling using `setInterval()` and the `d3.json()` method refreshing the information shown on the screen in intervals defined by `refreshTime` (7000 milliseconds in our case).
+We implemented this with simple client-server polling using `setInterval()` and the `d3.json()` method refreshing the information shown on the screen in intervals set by `refreshTime` (7000 milliseconds in our case).
 
 The callback defined for `d3.json()` then calls `drawBarScoreLeaders()` and `drawBeaconLeaders()` passing the newly loaded data as an argument.
 
