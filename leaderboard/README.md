@@ -103,7 +103,7 @@ function drawBarScoreLeaders(data){
 			bars,
 			bar;
 		
-		// calibrate the the bar width x-scale with newly loaded max barscore values
+		// calibrate the the bar width x-scale with newly loaded min/max barscore values
 		bsx.domain(d3.extent(bsLeaders, function(d) { return d.BAR_SCORE; })).nice();
 		
 ```
