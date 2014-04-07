@@ -26,7 +26,7 @@ Looking at the source code you will notice several variables being set at the to
 ```javascript
 		
 		// SHARED vars
-		var svg, // the svg canvas
+		var 	svg, // the svg canvas
 			leaderCount = 8, // number of leaders shown
 			refreshTime = 7000, // milliseconds between data refresh requests
 			vizWidth = 1900, // total screen width
@@ -36,17 +36,18 @@ Looking at the source code you will notice several variables being set at the to
 			animDuration = 2000, // the time it takes to animate a change
 			width =  vizWidth/2 - margin.left - margin.right, 
 			height = vizHeight - margin.top - margin.bottom, // individual leaderboard height
-			radius = ( height - padding*leaderCount ) / ( leaderCount*2 ),
+			radius = ( height - padding*leaderCount ) / ( leaderCount*2 ), // radious of the player selfie
 			picFrameWidth = 2;
 		
 		// BEACON vars	
-		var 	beaconViz;
+		var 	beaconViz; // the svg group containing the beacons leaderboard components
 			
 		// BARSCORE vars
-		var 	bsViz,
-			barHeight = 30,
-			minBarWidth = radius + padding + 10,
-			bsx = d3.scale.linear().range([0, width-minBarWidth]);
+		var 	bsViz, // the svg group containing the beacons leaderboard components
+			barHeight = 30, // the height of each barscore bar
+			minBarWidth = radius + padding + 10, // the minimum width of a bar
+			bsx = d3.scale.linear().range([0, width-minBarWidth]); // the x-scale calculating the bar width
+
 ```
 
 
