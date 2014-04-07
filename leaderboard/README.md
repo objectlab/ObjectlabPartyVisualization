@@ -391,7 +391,7 @@ I mentioned earlier that we chose to use specific symbols inspired by TRON to re
 
 To accomplish this we created svg files for each beacon and used them as the src for a svg image element. In our case we had 2 svg files for each symbol, one highlighted, the other one grayed out. 
 
-> There is most likely a more elegant approach to this. Something that would use a svg path and then use css to change the color of a symbol, but given our very aggressive timeframe we did not have time for 'elegance'. And this worked just fine.
+> Note: There is most likely a more elegant approach to this. Something that would use a svg path and then use css to change the color of a symbol, but given our very aggressive timeframe we did not have time for 'elegance'. And this worked just fine.
 
 The game allowed the collection of 6 beacons the following shows the code for one of them... the ARJIAN beacon.
 
