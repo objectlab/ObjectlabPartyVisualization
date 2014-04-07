@@ -172,7 +172,7 @@ And finally we add the player picture which is a svg image.
 
 ```
 
-In order to get the circular photos we need to create a clipping path:
+In order to get the circular photos we need to create a clipping path.
 
 ```html
 <div style="height: 0;">
