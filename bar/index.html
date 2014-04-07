@@ -310,7 +310,7 @@
 			
 			setTimeout(function(){
 						
-					d3.json("http://ec2-54-200-209-241.us-west-2.compute.amazonaws.com/atbeacon/" + barCount , function(error, data) {
+					d3.json("http://Your/Server/atbeacon/" + barCount , function(error, data) {
 					
 							var people = data.atBeacon,
 								delta = getDelta(people);
