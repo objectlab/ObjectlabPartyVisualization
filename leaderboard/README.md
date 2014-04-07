@@ -131,9 +131,10 @@ To display newly arrived leaders our first step is to create a svg group that wi
 
 ```
 
-Now we append a svg rectangle for our barscore 'bar', svg text elements for a screen name and a barscore label and 2 svg circles creating the frame for the player picture.
+Now we append a svg rectangle for our barscore 'bar'.
 
 ```javascript
+
 		// the bar
 		bar.append("rect")
 			.attr("width", function(d) {
@@ -142,8 +143,45 @@ Now we append a svg rectangle for our barscore 'bar', svg text elements for a sc
 			.attr("height", barHeight)
 			.attr("x", 0)
 			.attr("y", -barHeight/2);
-		
-		
+
+```
+
+In order to turn the 'bar' into a TRON look-a-like beam we need some more svg and css magic.
+
+```html
+
+<style>
+
+	.barscore rect {
+		fill: url(#barGradient);
+	}
+
+</style>
+
+...
+
+<div style="height: 0;">
+	<svg>
+	  <defs>
+
+	    	...
+
+	    	<linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+	      		<stop offset="0%" style="stop-color:rgb(98,143,153);stop-opacity:1" />
+	      		<stop offset="75%" style="stop-color:rgb(199,252,252);stop-opacity:1" />
+	      		<stop offset="100%" style="stop-color:rgb(54,98,97);stop-opacity:1" />
+	    	</linearGradient>
+
+	  </defs>
+	</svg>
+</div>
+
+```
+
+Now that the 'bar' is constructed lets append svg text elements for a screen name and a barscore label and 2 svg circles creating the frame for the player picture.
+
+```javascript
+
 		// score label on right
 		bar.append("text")
 			.attr("class", "score")
@@ -189,30 +227,26 @@ And finally we add the player picture which is a svg image.
 
 In order to get the circular photos we need to create a clipping path.
 
-```html
-<div style="height: 0;">
-	<svg>
-	  <defs>
-
-	    	<clipPath id="clipping"></clipPath>
-
-	    	<linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-	      		<stop offset="0%" style="stop-color:rgb(98,143,153);stop-opacity:1" />
-	      		<stop offset="75%" style="stop-color:rgb(199,252,252);stop-opacity:1" />
-	      		<stop offset="100%" style="stop-color:rgb(54,98,97);stop-opacity:1" />
-	    	</linearGradient>
-
-	  </defs>
-	</svg>
-</div>
+```javascript
+		// append the clipping path with the correct dimensions
+		svg = d3.select("#clipping").append("circle")
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.attr("r", radius);
 ```
 
 Which we can then reference from our `.photo` css definition.
 
 ```css
+<style>
+	...
+	
 	#leaderboard .photo {
 		clip-path: url(#clipping);
 	}
+	
+	...
+</style>
 ```
 
 
@@ -273,11 +307,11 @@ For players who are already displayed from a previous data load we need to updat
 
 ## 2.The Beacon Leaderboard
 
-The Beacon Leaderboard shows the players who were most successful at collecting beacons and highlight the ones they had claimed.
+The Beacon Leaderboard shows the players who were most successful at collecting beacons and highlights the ones they had claimed.
 
 Looking at the source you will find `drawBeaconLeaders()` which expects a `data` argument containg the most recent group of barscore leaders in the `data.claimLeaders` array.
 
-Our first task is to again bind DOM elements for existing players with the newly loaded data. 
+Our first task is to again bind DOM elements previously created for existing players with the newly loaded data. 
 
 ```javascript 
 
@@ -299,9 +333,9 @@ function drawBeaconLeaders(data){
 
 ```
 
-##### Constructing New Leaders
+###Constructing New Beacon Claim Leaders
 
-Again we create a svg group that will be our container for all the elements and assign a css class, `.beacon-leader` in this case.
+Again we create a svg group that will be our container for all the DOM elements and assign a css class, `.beacon-leader` in this case.
 
 ```javascript 
 	
@@ -311,7 +345,7 @@ Again we create a svg group that will be our container for all the elements and 
 			.attr("class","beacon-leader");
 
 ```
-Then create a screen name label and 2 circles creating the frame for the player picture
+Then append a svg text element for the screen name and 2 svg circles creating the frame for the player picture
 
 ```javascript
 	// name label on left
@@ -337,6 +371,10 @@ Then create a screen name label and 2 circles creating the frame for the player 
 
 
 ```
+
+I mentioned earlier that we chose to use specific symbols inspired by TRON to represent each beacon hidden in the club. Beacons that have been claimed by a user would be highlighted, unclaimed beacons grayed out.
+
+To render the symbols we chose to create svg path elements for each symbol.
 
 
 
