@@ -19,9 +19,11 @@ The Barscore Leaderboard is basically a bar chart with screen name labels on the
 
 ### Fixed Screen Size and Other Configurations
 
-Again, similar to the ['People At The Bar' Visualization](/bar/) I decided to implement this with a fixed screen size of 1900x1060 resolutionusing Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
+Again, similar to the ['People At The Bar' Visualization](/bar/) I decided to implement this with a fixed screen size of 1900x1060 resolution using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
 
-Looking at the source code you will notice several variables being set at the top. They should be quite self explanatory after reading the comments.
+Looking at the source code you will notice several variables being set at the top. Because both leaderboards are being shown on the same screen , some of these configurations are shared, others specific to each visualization.
+
+All of these should be quite self explanatory after reading the comments.
 
 ```javascript
 		
@@ -49,5 +51,33 @@ Looking at the source code you will notice several variables being set at the to
 			bsx = d3.scale.linear().range([0, width-minBarWidth]); // the x-scale calculating the bar width
 
 ```
+
+### Real-time Server Updates
+
+I implemented this with simple polling using 'setInterval()' and the 'd3.json() method refreshing the information shown on the screen in intervals defined by 'refreshTime' (7000 milliseconds in our case).
+
+The callback then calls `drawBarScoreLeaders()' and 'drawBeaconLeaders()' passing the newly loaded data as an argument.
+
+```javascript
+
+		// refresh the data
+		setInterval(function() {
+
+			d3.json("http://ec2-54-200-209-241.us-west-2.compute.amazonaws.com/leaderboard/" + leaderCount , function(error, data) {
+
+				drawBarScoreLeaders(data);
+				drawBeaconLeaders(data);
+
+			});
+
+
+		}, refreshTime);
+
+```
+
+
+
+### The Barscore Leaderboard
+
 
 
