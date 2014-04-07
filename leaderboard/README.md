@@ -337,7 +337,7 @@ function drawBeaconLeaders(data){
 
 ###Constructing New Beacon Claim Leaders
 
-Again we create a svg group that will be our container for all the DOM elements and assign a css class named `.beacon-leader` this time.
+Again, we start with creating a svg group that will be our container for all the DOM elements and assign a css class. This time we name it `.beacon-leader`.
 
 ```javascript 
 	
@@ -347,7 +347,9 @@ Again we create a svg group that will be our container for all the DOM elements 
 			.attr("class","beacon-leader");
 
 ```
+
 Then we append a svg text element for the screen name and 2 svg circles creating the frame for the player picture as well as a svg image for the picture. As described above by applying the css class `.photo` we get a nicely rounded image.
+
 
 ```javascript
 	// name label on left
