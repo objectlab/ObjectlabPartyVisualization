@@ -218,9 +218,9 @@ Which we can then reference from our `.photo` css definition.
 
 
 
-###Remove players who have been bested by others
+###Remove Un-needed Players 
 
-For this we use  [selection.exit()](https://github.com/mbostock/d3/wiki/Selections#exit) and simply remove bars that are not needed.
+We only want to display the top players so those who have been outperformed by the current leaders need to go. For this we use  [selection.exit()](https://github.com/mbostock/d3/wiki/Selections#exit) and simply remove the player 'bars' that are not needed.
 
 ```javascript
 
