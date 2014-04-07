@@ -93,7 +93,7 @@ The Barscore Leaderboard is basically a bar chart with screen name labels and a 
 
 Looking at the source code you will find `drawBarScoreLeaders()` which expects a `data` argument containg the most recent group of barscore leaders in the `data.scoreLeaders` array.
 
-As barscores increase we need to continuously re-calibrate the x-scale that calculates the width for each bar so they will not grow off the screen. This is done by resetting the [d3.scale.domain](https://github.com/mbostock/d3/wiki/Quantitative-Scales#linear_domain) using [d3.extent](https://github.com/mbostock/d3/wiki/Arrays#d3_extent) to figure out the min and max barscore values.
+As barscores increase we need to continuously re-calibrate the x-scale that calculates the width for each bar so they will not 'grow' off the screen. This is done by resetting the [d3.scale.domain](https://github.com/mbostock/d3/wiki/Quantitative-Scales#linear_domain) using [d3.extent](https://github.com/mbostock/d3/wiki/Arrays#d3_extent) to figure out the min and max barscore values.
 
 ```javascript 
 
