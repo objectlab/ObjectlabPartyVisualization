@@ -4,7 +4,7 @@ We figured the best way to visualize micro-location detection was to simulate ty
 
 And here is what we came up with:
 
-![alt text](/img/people-at-bar.jpg "At The Bar Visualization")
+![alt text](/img/people-at-bar-tron.jpg "At The Bar Visualization")
 
 People at the bar are visualized as bubbles floating on the screen. New arrivals come bouncing onto the screen from above causing movement and eventually settling down until somebody else arrives. They are greeted with a personalized message displayed as a call-out offering game playing tips or congratulating them on their performance. As additional people crowd the space and bump into each other more movement happens… you know, kind of typical bar behaviour.
 
