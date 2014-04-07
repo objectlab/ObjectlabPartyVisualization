@@ -8,6 +8,7 @@ We figured the more people frequented the bar the more drinks they had to be con
 
 > high barscore = high level of drunkenness
 
+### 2. Beacon Claims
 The second game objective would be to claim all of the beacons hidden in the club. The party had somewhat of a TRON related theme, so to visualize each beacon we borrowed some nerdtastic TRON symbols.
 
 For both leaderboards wanted to incorporate the players’ pictures and their screen names and add a little animation into the mix.
