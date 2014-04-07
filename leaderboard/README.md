@@ -8,7 +8,7 @@ We figured the more people frequented the bar the more drinks they had to be con
 
 > high barscore = high level of drunkenness
 
-#####Objective: Maximum Beacon Claims**
+#####Objective: Maximum Beacon Claims
 The second game objective would be to claim all of the beacons hidden in the club. The party had somewhat of a TRON related theme, so to visualize each beacon we borrowed some nerdtastic TRON symbols.
 
 For both leaderboards wanted to incorporate the players’ pictures and their screen names and add a little animation into the mix.
@@ -78,7 +78,7 @@ The callback defined for `d3.json()` then calls `drawBarScoreLeaders()` and `dra
 
 Before you read on it will be helpful if you have a general understanding of binding DOM elements to data using D3js.
 
-If you are not familiar with this please take a look at:
+If you are not familiar with, this please take a look at:
 
 [D3 selection](https://github.com/mbostock/d3/wiki/Selections)
 
@@ -89,6 +89,135 @@ If you are not familiar with this please take a look at:
 
 The Barscore Leaderboard is basically a bar chart with screen name labels and a players' picture on the left and barscores displayed on the right. Leading players are shown on the top, new leaderboard arrivals animate onto the screen from above pushing less successful players off the screen, position changes would animate respectively.
 
+Looking at the source code you will find `drawBarScoreLeaders()` which expects the `data` argument containg the most recent group of barscore leaders. `data.scoreLeaders` is an Array containing our barscore leaders.
+
+As barscores increase we need to continue to re-calibrate the x-scale that calculates the width for each bar so they will not grow off the screen. This is done by resetting the [d3.scale.domain](https://github.com/mbostock/d3/wiki/Quantitative-Scales#linear_domain) using [d3.extent](https://github.com/mbostock/d3/wiki/Arrays#d3_extent) to figure out the min and max barscore values.
+
+```javascript 
+
+function drawBarScoreLeaders(data){
+
+		var bsLeaders = data.scoreLeaders,
+			bars,
+			bar;
+		
+		// calibrate the the bar width x-scale with newly loaded max barscore values
+		bsx.domain(d3.extent(bsLeaders, function(d) { return d.BAR_SCORE; })).nice();
+		
+```
+
+Then we bind existing DOM elements to the newly loaded data.
+
+
+```javascript
+		// bind existing DOM elements for leaders to new data
+		bars = bsViz.selectAll(".bs-leader")
+				.data(bsLeaders, function(d) { return d.USER_ID; });
+```
+
+
+##### Constructing New Barscore Leaders
+
+First create a svg group that will be our container for all the elements. This is convenient as we can assign a css class, 'beacon-leader' in this case, for applying styles conveniently.
+
+```javascript
+
+		// CREATE nodes for each leader
+		bar = bars.enter()
+				.append("g")
+				.attr("class","bs-leader");
+
+```
+
+Now create a svg rectangle for our barscore 'bar', a screen name label positioned on the left, a barscore label positioned on the right and 2 circles creating the frame for the player picture.
+
+```javascript
+		// the bar
+		bar.append("rect")
+			.attr("width", function(d) {
+				return bsx(d.BAR_SCORE) + minBarWidth;
+			})
+			.attr("height", barHeight)
+			.attr("x", 0)
+			.attr("y", -barHeight/2);
+		
+		
+		// score label on right
+		bar.append("text")
+			.attr("class", "score")
+			.attr("y", 0)
+			.attr("dy", ".35em");
+		
+		// name label on left
+		bar.append("text")
+			.attr("class", "name")
+			.attr("y", 0)
+			.attr("x", -radius - padding)
+			.attr("dy", ".35em");
+```
+
+And finally add the player picture
+
+```javascript
+		// add the pic
+		bar.append("image")
+			.attr("class","photo")
+			.attr("xlink:href", function(d) { return imgUrl(d); })
+			.attr("x", -radius)
+      		.attr("y", -radius - radius/2 )
+			.attr("width", radius*2)
+      		.attr("height", radius*1.5*2);	
+
+```
+
+#####Remove players who have been bested by others
+
+For this we use  [selection.exit()](https://github.com/mbostock/d3/wiki/Selections#exit) and simply remove bars that are not needed.
+
+```javascript
+
+		// DELETE un-needed leader nodes
+		bars.exit().remove();
+
+```
+
+#####Update Extisting Leaders
+
+For players who are already displayed from a previous data load we need to update their vertical position, the width of the 'bar', the barscore label, their screen name and their photo.
+
+```javascript
+
+		// UPDATE existing leader nodes
+		bars.transition().duration(animDuration).ease("exp-out")
+			.call(positionLeader);
+	
+			
+		bars.select("rect").transition().duration(animDuration).ease("exp-out")
+			.attr("width", function(d) {
+				return bsx(d.BAR_SCORE) + minBarWidth;
+			});
+		
+		// UPDATE score
+		bars.select(".score")
+			.text(function(d) {
+				return d.BAR_SCORE;
+			})
+			.transition().duration(animDuration).ease("exp-out")
+				.attr("x", function(d) {
+					return bsx(d.BAR_SCORE) + minBarWidth + padding/2;
+				});
+				
+		// UPDATE name	
+		bars.select(".name")
+			.text(function(d, i) {
+				return (i+1) + '.' + d.NAME;
+			});
+			
+		// UPDATE photo
+		bars.select(".photo")
+		    .attr("xlink:href", function(d) { return imgUrl(d); });
+
+```
 
 
 
@@ -96,9 +225,11 @@ The Barscore Leaderboard is basically a bar chart with screen name labels and a 
 
 ## The Beacon Leaderboard
 
-The Beacon Leaderboard would simply show the players who were most successful at collecting beacons and highlight the ones they had claimed.
+The Beacon Leaderboard shows the players who were most successful at collecting beacons and highlight the ones they had claimed.
 
-Looking at the source code you will find `drawBeaconLeaders()` which expects the `data` argument containg the most recent group of barscore leaders.
+Looking at the source code you will find `drawBeaconLeaders()` which expects the `data` argument containg the most recent group of barscore leaders. `data.claimLeaders` is an Array containing our beacon claim leaders.
+
+Our first task is to again bind DOM elements for existing players with the newly loaded data. 
 
 ```javascript 
 
@@ -120,9 +251,9 @@ function drawBeaconLeaders(data){
 
 ```
 
-#### Constructing New Leaders
+##### Constructing New Leaders
 
-First create a svg group that will be our container for all the elements. This is convenient as we can assign a css class, 'beacon-leader' in this case, for applying styles conveniently.
+Again we create a svg group that will be our container for all the elements and assign a css class, 'beacon-leader' in this case.
 
 ```javascript 
 	
