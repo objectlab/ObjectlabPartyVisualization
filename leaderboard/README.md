@@ -15,4 +15,4 @@ And here is what the end reult looks like:
 
 <img src="/img/visualization-banner.jpg">
 
-
+![alt text](/img/visualization-banner.jpg "Leaderboard Visualization")
