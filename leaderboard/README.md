@@ -118,7 +118,7 @@ Then we bind existing DOM elements to the newly loaded data.
 ```
 
 
-##### Constructing New Barscore Leaders
+####Constructing New Barscore Leaders
 
 The first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign the css class `.bs-leader` for applying all css formatting.
 
@@ -203,7 +203,7 @@ Which we can then reference from our `.photo` css definition.
 
 
 
-#####Remove players who have been bested by others
+####Remove players who have been bested by others
 
 For this we use  [selection.exit()](https://github.com/mbostock/d3/wiki/Selections#exit) and simply remove bars that are not needed.
 
@@ -214,7 +214,7 @@ For this we use  [selection.exit()](https://github.com/mbostock/d3/wiki/Selectio
 
 ```
 
-#####Update Extisting Leaders
+####Update Extisting Leaders
 
 For players who are already displayed from a previous data load we need to update their vertical position, the width of the 'bar', the barscore label, their screen name and their photo.
 
