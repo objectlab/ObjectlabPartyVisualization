@@ -56,7 +56,7 @@ All of these should be quite self explanatory after reading the comments.
 
 I implemented this with simple polling using `setInterval()` and the `d3.json()` method refreshing the information shown on the screen in intervals defined by `refreshTime` (7000 milliseconds in our case).
 
-The callback then calls `drawBarScoreLeaders()` and `drawBeaconLeaders()` passing the newly loaded data as an argument.
+The callback defined for `d3.json()` then calls `drawBarScoreLeaders()` and `drawBeaconLeaders()` passing the newly loaded data as an argument.
 
 ```javascript
 
