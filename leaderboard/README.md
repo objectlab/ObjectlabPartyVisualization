@@ -120,7 +120,7 @@ In order to nicely update players who are allready displayed on the screen, inst
 
 ###Constructing New Barscore Leaders
 
-Our first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign the css class `.bs-leader` for applying all css formatting.
+To display newly arrived leaders our first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign the css class `.bs-leader` for applying all css formatting.
 
 ```javascript
 
