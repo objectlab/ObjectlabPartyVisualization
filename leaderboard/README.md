@@ -393,7 +393,7 @@ To accomplish this we created svg files for each beacon and used them as the src
 
 > Note: There is most likely a more elegant approach to this. Something that would use a svg path and then use css to change the color of a symbol, but given our very aggressive timeframe we did not have time for 'elegance'. And this worked just fine.
 
-The game allowed the collection of 6 beacons the following shows the code for one of them... the ARJIAN beacon.
+The game allowed the collection of a total of 6 beacons. The following only shows the code for one of them... the ARJIAN beacon.
 
 During construction, all we have to do is create a svg image that does not have a source just yet. So we can conveniently select the image and update it we apply the css class `.beacon-1`.
 
