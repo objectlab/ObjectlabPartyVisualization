@@ -3,7 +3,7 @@ Leaderboard Visualization
 
 The Leaderboard Visualization needs to show the current leaders in both game play objectives.
 
-## 1. Barscore
+### 1. Barscore
 We figured the more people frequented the bar the more drinks they had to be consuming.  Therefore the complicated mathematical equation of:
 
 > high barscore = high level of drunkenness
