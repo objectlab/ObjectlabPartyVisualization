@@ -260,7 +260,7 @@ For players who are already displayed from a previous data load we need to updat
 
 The Beacon Leaderboard shows the players who were most successful at collecting beacons and highlight the ones they had claimed.
 
-Looking at the source code you will find `drawBeaconLeaders()` which expects the `data` argument containg the most recent group of barscore leaders. `data.claimLeaders` is an Array containing our beacon claim leaders.
+Looking at the source you will find `drawBeaconLeaders()` which expects a `data` argument containg the most recent group of barscore leaders in the `data.claimLeaders` array.
 
 Our first task is to again bind DOM elements for existing players with the newly loaded data. 
 
