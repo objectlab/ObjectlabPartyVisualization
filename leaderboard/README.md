@@ -178,6 +178,8 @@ In order to turn the 'bar' into a TRON look-a-like beam we need some more svg an
 
 ```
 
+> Note that oir design had a rounded edge to each bar. This was not implmeneted... hm, no other excuse that we wimply ran out of time.
+
 Now that the 'bar' is constructed lets append svg text elements for a screen name and a barscore label and 2 svg circles creating the frame for the player picture.
 
 ```javascript
@@ -335,7 +337,7 @@ function drawBeaconLeaders(data){
 
 ###Constructing New Beacon Claim Leaders
 
-Again we create a svg group that will be our container for all the DOM elements and assign a css class, `.beacon-leader` in this case.
+Again we create a svg group that will be our container for all the DOM elements and assign a css class named `.beacon-leader` this time.
 
 ```javascript 
 	
@@ -345,7 +347,7 @@ Again we create a svg group that will be our container for all the DOM elements 
 			.attr("class","beacon-leader");
 
 ```
-Then append a svg text element for the screen name and 2 svg circles creating the frame for the player picture
+Then we append a svg text element for the screen name and 2 svg circles creating the frame for the player picture
 
 ```javascript
 	// name label on left
@@ -374,7 +376,8 @@ Then append a svg text element for the screen name and 2 svg circles creating th
 
 I mentioned earlier that we chose to use specific symbols inspired by TRON to represent each beacon hidden in the club. Beacons that have been claimed by a user would be highlighted, unclaimed beacons grayed out.
 
-To render the symbols we chose to create svg path elements for each symbol.
+To render the symbols we created svg files for each symbol which then can be used as the src for a svg image element.
+
 
 
 
