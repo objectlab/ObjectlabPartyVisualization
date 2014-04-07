@@ -26,7 +26,7 @@ Looking at the source code you will notice several variables being set at the to
 ```javascript
 		
 		// SHARED vars
-		var 	svg, // the svg canvas
+		var svg, // the svg canvas
 			leaderCount = 8, // number of leaders shown
 			refreshTime = 7000, // milliseconds between data refresh requests
 			vizWidth = 1900, // total screen width
