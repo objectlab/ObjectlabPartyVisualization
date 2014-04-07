@@ -13,6 +13,4 @@ For both leaderboards we wanted to display the selfies the players had taken wit
 
 And here is what the end reult looks like:
 
-<img src="/img/visualization-banner.jpg">
-
 ![alt text](/img/visualization-banner.jpg "Leaderboard Visualization")
