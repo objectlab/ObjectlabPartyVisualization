@@ -131,7 +131,7 @@ To display newly arrived leaders our first step is to create a svg group that wi
 
 ```
 
-Now we create a svg rectangle for our barscore 'bar', svg text elements for a screen name and a barscore label and 2 svg circles creating the frame for the player picture.
+Now we append a svg rectangle for our barscore 'bar', svg text elements for a screen name and a barscore label and 2 svg circles creating the frame for the player picture.
 
 ```javascript
 		// the bar
