@@ -23,7 +23,7 @@ And here is what the end result looks like:
 
 Again, similar to the ['People At The Bar' Visualization](/bar/) we decided to implement this with a fixed screen size of 1900x1060 resolution using Mike Bostock's [margin convention](http://bl.ocks.org/mbostock/3019563).
 
-Looking at the source code you will notice several variables being set at the top. Because both leaderboards are being shown on the same screen, some of these configurations are shared, others specific to each visualization.
+Looking at the source code you will notice several variables being set at the top. Because both leaderboards are being shown on the same screen, some of these configurations are shared, others are specific to each visualization.
 
 All of these should be quite self explanatory after reading the comments.
 
