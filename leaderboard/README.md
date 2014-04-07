@@ -120,7 +120,7 @@ Then we bind existing DOM elements to the newly loaded data.
 
 ##### Constructing New Barscore Leaders
 
-First create a svg group that will be our container for all the elements. This is convenient as we can assign a css class, 'beacon-leader' in this case, for applying styles conveniently.
+The first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign a css class, 'beacon-leader' in this case, for applying styles conveniently.
 
 ```javascript
 
@@ -131,7 +131,7 @@ First create a svg group that will be our container for all the elements. This i
 
 ```
 
-Now create a svg rectangle for our barscore 'bar', a screen name label positioned on the left, a barscore label positioned on the right and 2 circles creating the frame for the player picture.
+Now we create a svg rectangle for our barscore 'bar', svg text elements for a screen name and a barscore label and 2 svg circles creating the frame for the player picture.
 
 ```javascript
 		// the bar
@@ -158,7 +158,7 @@ Now create a svg rectangle for our barscore 'bar', a screen name label positione
 			.attr("dy", ".35em");
 ```
 
-And finally add the player picture
+And finally we add the player picture which is a svg image.
 
 ```javascript
 		// add the pic
@@ -171,6 +171,37 @@ And finally add the player picture
       		.attr("height", radius*1.5*2);	
 
 ```
+
+In order to apply a circular clipping path we need to create a clipping path.
+
+```html
+<div style="height: 0;">
+	<svg>
+	  <defs>
+
+	    	<clipPath id="clipping"></clipPath>
+
+	    	<linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+	      		<stop offset="0%" style="stop-color:rgb(98,143,153);stop-opacity:1" />
+	      		<stop offset="75%" style="stop-color:rgb(199,252,252);stop-opacity:1" />
+	      		<stop offset="100%" style="stop-color:rgb(54,98,97);stop-opacity:1" />
+	    	</linearGradient>
+
+	  </defs>
+	</svg>
+</div>
+```
+
+And then use that in our `.photp` css efinition so the clipping path is applied to the image
+
+```css
+	#leaderboard .photo {
+		clip-path: url(#clipping);
+	}
+```
+
+
+
 
 #####Remove players who have been bested by others
 
