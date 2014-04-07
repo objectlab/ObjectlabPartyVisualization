@@ -108,7 +108,7 @@ function drawBarScoreLeaders(data){
 		
 ```
 
-Then we bind existing DOM elements to the newly loaded data.
+In order to update players who are allready displayed on the screen, instead of simply re-drawing the bar chart, we bind existing DOM elements to the newly loaded data.
 
 
 ```javascript
