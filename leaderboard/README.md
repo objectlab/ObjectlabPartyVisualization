@@ -178,7 +178,7 @@ In order to turn the 'bar' into a TRON look-a-like beam we need some more svg an
 
 ```
 
-> Note that oir design had a rounded edge to each bar. This was not implmeneted... hm, no other excuse that we wimply ran out of time.
+> Note that when you look really closely at our design, it showed a rounded edge for each bar. This was not implemeneted... no other excuse that we simply ran out of time.
 
 Now that the 'bar' is constructed lets append svg text elements for a screen name and a barscore label and 2 svg circles creating the frame for the player picture.
 
