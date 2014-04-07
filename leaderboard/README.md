@@ -120,7 +120,7 @@ Then we bind existing DOM elements to the newly loaded data.
 
 ##### Constructing New Barscore Leaders
 
-The first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign a css class, 'beacon-leader' in this case, for applying styles conveniently.
+The first step is to create a svg group that will be our container for all DOM elements. This is convenient as we can assign a css class, `.bs-leader` in this case, for applying styles conveniently.
 
 ```javascript
 
@@ -286,7 +286,7 @@ function drawBeaconLeaders(data){
 
 ##### Constructing New Leaders
 
-Again we create a svg group that will be our container for all the elements and assign a css class, 'beacon-leader' in this case.
+Again we create a svg group that will be our container for all the elements and assign a css class, `.beacon-leader` in this case.
 
 ```javascript 
 	
