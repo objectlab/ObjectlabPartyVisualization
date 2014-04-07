@@ -3,12 +3,12 @@ Leaderboard Visualization
 
 The Leaderboard Visualization needs to show the current leaders in both game play objectives.
 
-#####Objective: Highest Barscore
+#####Objective 1: Highest Barscore
 We figured the more people frequented the bar the more drinks they had to be consuming.  Therefore the complicated mathematical equation of:
 
 > high barscore = high level of drunkenness
 
-#####Objective: Maximum Beacon Claims
+#####Objective 2: Maximum Beacon Claims
 The second game objective would be to claim all of the beacons hidden in the club. The party had somewhat of a TRON related theme, so to visualize each beacon we borrowed some nerdtastic TRON symbols.
 
 For both leaderboards wanted to incorporate the players’ pictures and their screen names and add a little animation into the mix.
