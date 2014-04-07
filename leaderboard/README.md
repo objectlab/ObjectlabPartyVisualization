@@ -89,7 +89,7 @@ If you are not familiar with, this please take a look at:
 
 ## The Barscore Leaderboard
 
-The Barscore Leaderboard is basically a bar chart with screen name labels and a players' picture on the left and barscores displayed on the right. Leading players are shown on the top, new leaderboard arrivals animate onto the screen from above pushing less successful players off the screen; position changes animate respectively.
+The Barscore Leaderboard is basically a horizontal bar chart with screen name labels and a players' picture on the left and barscores displayed on the right. Leading players are shown on the top, new leaderboard arrivals animate onto the screen from above pushing less successful players off the screen; position changes animate respectively.
 
 Looking at the source code you will find `drawBarScoreLeaders()` which expects a `data` argument containg the most recent group of barscore leaders in the `data.scoreLeaders` array.
 
