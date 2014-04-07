@@ -348,7 +348,7 @@ Again, we start with creating a svg group that will be our container for all the
 
 ```
 
-Then we append a svg text element for the screen name and 2 svg circles creating the frame for the player picture as well as a svg image for the picture. As described above by applying the css class `.photo` we get a nicely rounded image.
+Then we append a svg text element for the screen name and 2 svg circles creating the frame for the player picture, as well as a svg image for the picture. As described above by applying the css class `.photo` we get a nicely rounded image.
 
 
 ```javascript
