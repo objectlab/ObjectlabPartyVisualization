@@ -1,4 +1,5 @@
-## The 'People At The Bar' Visualization
+The 'People At The Bar' Visualization
+===============
 
 We figured the best way to visualize micro-location detection was to simulate typical 'people at the bar' behaviour; to display their mugshot and screen name and attempt to engage them with game related personalized messages. All we needed was an interesting way to mimick people bumping into each other, trying to push through the crowd to order a drink and having a good time.
 
