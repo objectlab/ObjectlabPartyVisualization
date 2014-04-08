@@ -110,7 +110,7 @@ function getCalloutTxt(d){
 
 So by now you already know that each person is displayed as a floating bubble on the screen. The composition of these bubbles are best illustrated with a sketch.
 
-![alt text](/img/people-bubble.svg "People Bubble Sktech")
+![alt text](/img/people-bubble.svg "People Bubble Sketch")
 
 The code to implement this is pretty standard D3 stuff. If you are not familiar with D3 first take a look at:
 
