@@ -254,7 +254,7 @@ Which we can then reference from our `.photo` css definition.
 
 
 
-###Remove Un-needed Players 
+###Remove Unnecessary Players 
 
 We only want to display the top players, therefore those who have been outperformed by the current leaders need to go. For this we use  [selection.exit()](https://github.com/mbostock/d3/wiki/Selections#exit) and simply remove the player 'bars' that are not needed.
 
@@ -265,7 +265,7 @@ We only want to display the top players, therefore those who have been outperfor
 
 ```
 
-###Update Extisting Leaders
+###Update Existing Leaders
 
 For players who are already displayed from a previous data load we need to update their vertical position, the width of the 'bar', the barscore label, their screen name and their photo.
 
